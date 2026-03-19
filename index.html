@@ -1977,7 +1977,7 @@
      </div>
     </div>
     <div class="floating-controls bottom-center">
-     <div class="mission-planner" style="display: none;">
+     <div class="mission-planner">
       <div class="planner-group">
        <span class="panel-label">
         SHAPE TYPE
@@ -1989,7 +1989,7 @@
         <button class="shape-btn" id="shape-circle" title="Single Transmitter (1m)">
          ●
         </button>
-        <button class="shape-btn" id="shape-array" title="EM Transmitter Array (15 units, 4m spacing)">
+        <button class="shape-btn" id="shape-array" title="EM Transmitter Array">
          📡
         </button>
         <button class="shape-btn" id="shape-barrier" title="Barrier / Blockade">
@@ -1999,66 +1999,39 @@
       </div>
       <button class="planner-btn" id="add-mode-btn">
        <span class="icon">
-        ➕
+        ＋
        </span>
        ADD OBJECT
       </button>
+
       <div class="control-panel" id="editor-panel" style="display: none;">
        <input class="editor-input" id="poly-name-input" placeholder="Sector Name" type="text"/>
        <div class="sub-panel">
-        <span class="panel-label">
-         COLOR
-        </span>
+        <span class="panel-label">COLOR</span>
         <div class="color-options" id="color-picker">
-         <div class="color-swatch active" data-color="#00f0ff" style="background: #00f0ff;">
-         </div>
-         <div class="color-swatch" data-color="#00d166" style="background: #00d166;">
-         </div>
-         <div class="color-swatch" data-color="#ff9d00" style="background: #ff9d00;">
-         </div>
-         <div class="color-swatch" data-color="#ff3e3e" style="background: #ff3e3e;">
-         </div>
-         <div class="color-swatch" data-color="#8c52ff" style="background: #8c52ff;">
-         </div>
-         <div class="color-swatch" data-color="#ffff00" style="background: #ffff00;">
-         </div>
-         <div class="color-swatch" data-color="#ff00ff" style="background: #ff00ff;">
-         </div>
-         <div class="color-swatch" data-color="#ffffff" style="background: #ffffff;">
-         </div>
-         <div class="color-swatch" data-color="#2a2a2a" style="background: #2a2a2a;">
-         </div>
-         <div class="color-swatch" data-color="#8b4513" style="background: #8b4513;">
-         </div>
+         <div class="color-swatch active" data-color="#00f0ff" style="background: #00f0ff;"></div>
+         <div class="color-swatch" data-color="#00d166" style="background: #00d166;"></div>
+         <div class="color-swatch" data-color="#ff9d00" style="background: #ff9d00;"></div>
+         <div class="color-swatch" data-color="#ff3e3e" style="background: #ff3e3e;"></div>
+         <div class="color-swatch" data-color="#8c52ff" style="background: #8c52ff;"></div>
+         <div class="color-swatch" data-color="#ffff00" style="background: #ffff00;"></div>
+         <div class="color-swatch" data-color="#ffffff" style="background: #ffffff;"></div>
+         <div class="color-swatch" data-color="#2a2a2a" style="background: #2a2a2a;"></div>
+         <div class="color-swatch" data-color="#8b4513" style="background: #8b4513;"></div>
         </div>
        </div>
        <div class="sub-panel">
-        <span class="panel-label">
-         ANGLE
-        </span>
+        <span class="panel-label">ANGLE</span>
         <input id="rotation-slider" max="360" min="0" type="range" value="0"/>
-        <span id="angle-value">
-         0&deg;
-        </span>
+        <span id="angle-value">0°</span>
        </div>
-       <button class="planner-btn danger" id="delete-group-btn" style="display: none;">
-        <span class="icon">
-         🗑️
-        </span>
-        DELETE ARRAY
-       </button>
        <button class="planner-btn danger" id="delete-poly-btn">
-        <span class="icon">
-         🗑️
-        </span>
+        <span class="icon">🗑️</span>
        </button>
       </div>
      </div>
-     <div class="stats-pill" id="poly-stats" style="display: none;">
-      <strong>
-       1
-      </strong>
-      SECTORS PLANNED
+     <div class="stats-pill" id="poly-stats">
+      <strong>65</strong> OBJECTS PLANNED
      </div>
     </div>
    </main>
