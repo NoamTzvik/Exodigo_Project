@@ -20,7 +20,45 @@ document.addEventListener('DOMContentLoaded', () => {
     let isAddMode = false;
     let currentShape = 'sector';
 
-    // --- COORDINATE DISPLAY ---
+    // --- INJECT DEPLOY BUTTON ---
+    const saveBtn = document.getElementById('save-mission-btn');
+    if (saveBtn) {
+        const deployBtn = document.createElement('button');
+        deployBtn.className = 'planner-btn';
+        deployBtn.id = 'prepare-deploy-btn';
+        deployBtn.style.marginLeft = '10px';
+        deployBtn.style.borderColor = '#ff9d00';
+        deployBtn.style.color = '#ff9d00';
+        deployBtn.innerHTML = '<span class="icon">🚀</span> DEPLOY TO VERCEL';
+        saveBtn.parentNode.insertBefore(deployBtn, saveBtn.nextSibling);
+
+        deployBtn.addEventListener('click', () => {
+            const data = polygons.map(p => ({
+                lat: p.lat, lng: p.lng, angle: p.angle, color: p.color, 
+                name: p.name, type: p.type, groupId: p.groupId, day: p.day
+            }));
+            const code = JSON.stringify(data);
+            const modal = document.createElement('div');
+            modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;padding:20px;border-radius:15px;border:1px solid #ff9d00;z-index:9999;width:80%;max-width:600px;box-shadow:0 0 50px rgba(0,0,0,0.8);color:#fff;font-family:sans-serif;";
+            modal.innerHTML = `
+                <h2 style="margin-top:0;color:#ff9d00;">READY FOR VERCEL DEPLOYMENT 🛰️</h2>
+                <textarea id="deploy-code" style="width:100%;height:150px;background:#000;color:#00f0ff;border:1px solid #333;padding:10px;font-family:monospace;border-radius:8px;">${code}</textarea>
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:15px;">
+                    <button id="close-deploy" style="background:transparent;color:#fff;border:1px solid #555;padding:8px 15px;border-radius:8px;cursor:pointer;">CLOSE</button>
+                    <button id="copy-deploy" style="background:#ff9d00;color:#000;border:none;padding:8px 15px;border-radius:8px;font-weight:bold;cursor:pointer;">COPY CODE</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.getElementById('copy-deploy').onclick = () => {
+                const ta = document.getElementById('deploy-code');
+                ta.select();
+                document.execCommand('copy');
+                document.getElementById('copy-deploy').innerText = '✓ COPIED';
+            };
+            document.getElementById('close-deploy').onclick = () => modal.remove();
+        });
+    }
+
     const coordDisplay = L.control({ position: 'bottomleft' });
     coordDisplay.onAdd = function () {
         this._div = L.DomUtil.create('div', 'coord-box');
@@ -137,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- INTERACTIVE HANDLERS ---
     map.on('click', (e) => {
         if (!isAddMode) {
             selectPolygon(-1);
@@ -196,10 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /** 
      * BAKED_DATA: Reconstructed from visual reference 
-     * Aligned angles for 'One Line' effect per path.
+     * Includes RESTORED BROWN path (Day 3).
      */
     const BAKED_DATA = [
-        // GREEN (Center Top) - Aligned ~165
+        // GREEN (Center Top)
         {"lat": 40.2472,"lng": -77.1724,"angle": 165,"color": "#00d166","name": "פוליגון 1","type": "sector","day": 6},
         {"lat": 40.2468,"lng": -77.1722,"angle": 165,"color": "#00d166","name": "פוליגון 2","type": "sector","day": 6},
         {"lat": 40.2464,"lng": -77.1720,"angle": 165,"color": "#00d166","name": "פוליגון 3","type": "sector","day": 6},
@@ -207,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {"lat": 40.2456,"lng": -77.1716,"angle": 165,"color": "#00d166","name": "פוליגון 5","type": "sector","day": 6},
         {"lat": 40.2452,"lng": -77.1714,"angle": 165,"color": "#00d166","name": "פוליגון 6","type": "sector","day": 6},
 
-        // WHITE (Inner Center) - Aligned ~165
+        // WHITE (Inner Center)
         {"lat": 40.24523, "lng": -77.17222, "angle": 165, "color": "#ffffff", "name": "פוליגון 1", "type": "sector", "day": 5},
         {"lat": 40.24492, "lng": -77.17199, "angle": 165, "color": "#ffffff", "name": "פוליגון 2", "type": "sector", "day": 5},
         {"lat": 40.24461, "lng": -77.17175, "angle": 165, "color": "#ffffff", "name": "פוליגון 3", "type": "sector", "day": 5},
@@ -234,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {"lat": 40.24556,"lng": -77.16935,"angle": 170,"color": "#00f0ff","name": "פוליגון 4","type": "sector","day": 1},
         {"lat": 40.24523,"lng": -77.16917,"angle": 165,"color": "#00f0ff","name": "פוליגון 5","type": "sector","day": 1},
         {"lat": 40.24490,"lng": -77.16905,"angle": 160,"color": "#00f0ff","name": "פוליגון 6","type": "sector","day": 1},
-        {"lat": 40.24455,"lng": -77.16901,"angle": 155,"color": "#00f0ff","name": "פוליגון 7","type": "sector","day": 1},
+        {"lat": 40.24445,"lng": -77.16901,"angle": 155,"color": "#00f0ff","name": "פוליגון 7","type": "sector","day": 1},
         {"lat": 40.24421,"lng": -77.16905,"angle": 150,"color": "#00f0ff","name": "פוליגון 8","type": "sector","day": 1},
 
         // BLACK (Inner Left)
@@ -243,6 +280,19 @@ document.addEventListener('DOMContentLoaded', () => {
         {"lat": 40.24407, "lng": -77.17259, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 3", "type": "sector", "day": 2},
         {"lat": 40.24371, "lng": -77.17252, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 4", "type": "sector", "day": 2},
         {"lat": 40.24338, "lng": -77.17234, "angle": 165, "color": "#2a2a2a", "name": "פוליגון 5", "type": "sector", "day": 2},
+
+        // BROWN (Day 3) - RESTORED
+        {"lat": 40.243383, "lng": -77.169374, "angle": 119, "color": "#8b4513", "name": "פוליגון 1", "type": "sector", "day": 3},
+        {"lat": 40.243055, "lng": -77.169261, "angle": 262, "color": "#8b4513", "name": "פוליגון 2", "type": "sector", "day": 3},
+        {"lat": 40.242900, "lng": -77.168977, "angle": 164, "color": "#8b4513", "name": "פוליגון 3", "type": "sector", "day": 3},
+        {"lat": 40.242728, "lng": -77.169476, "angle": 50, "color": "#8b4513", "name": "פוליגון 4", "type": "sector", "day": 3},
+        {"lat": 40.242547, "lng": -77.169894, "angle": 16, "color": "#8b4513", "name": "פוליגון 5", "type": "sector", "day": 3},
+        {"lat": 40.244339, "lng": -77.169379, "angle": 171, "color": "#8b4513", "name": "פוליגון 6", "type": "sector", "day": 3},
+        {"lat": 40.244419, "lng": -77.169846, "angle": 155, "color": "#8b4513", "name": "פוליגון 7", "type": "sector", "day": 3},
+        {"lat": 40.244636, "lng": -77.170227, "angle": 128, "color": "#8b4513", "name": "פוליגון 8", "type": "sector", "day": 3},
+        {"lat": 40.245234, "lng": -77.170699, "angle": 117, "color": "#8b4513", "name": "פוליגון 9", "type": "sector", "day": 3},
+        {"lat": 40.245553, "lng": -77.170924, "angle": 119, "color": "#8b4513", "name": "פוליגון 10", "type": "sector", "day": 3},
+        {"lat": 40.245852, "lng": -77.171144, "angle": 119, "color": "#8b4513", "name": "פוליגון 11", "type": "sector", "day": 3},
 
         // BARRIERS
         {"lat": 40.24440,"lng": -77.16899,"angle": 43,"color": "#ff3e3e","name": "חסימת ציר","type": "barrier","day": "roadblock"},
@@ -259,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await resp.json();
                 if (Array.isArray(data) && data.length > 0) sourceData = data;
             }
-        } catch (e) { console.log("Using baked data fallback."); }
+        } catch (e) { console.log("Baked fallback."); }
 
         sourceData.forEach(d => {
             polygons.push(createObject(d.lat, d.lng, d.angle, d.color, d.name, d.type, d.groupId, d.day));
@@ -273,19 +323,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (statsPill) {
             const sectors = polygons.filter(p => p.type === 'sector').length;
             const roadblocks = polygons.filter(p => p.day === 'roadblock').length;
-            statsPill.innerHTML = `<strong>${sectors}</strong> SECTORS | <strong>${roadblocks}</strong> ROAD CLOSURES`;
+            statsPill.innerHTML = `<strong>${sectors}</strong> SECTORS | <strong>${roadblocks}</strong> ROAD CLOSURES `;
         }
     }
 
-    // --- TEMPORAL FILTERS ---
     document.querySelectorAll('#day-filters .filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const daySelected = btn.getAttribute('data-day');
+        btn.addEventListener('click', () => {
+            const day = btn.getAttribute('data-day');
             document.querySelectorAll('#day-filters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
             polygons.forEach(p => {
-                const show = (daySelected === 'all') || (String(p.day) === daySelected);
+                const show = (day === 'all') || (String(p.day) === day);
                 if (show) { p.layer.addTo(map); } 
                 else { map.removeLayer(p.layer); map.removeLayer(p.marker); }
             });
@@ -293,7 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- SAVE LOGIC ---
     async function saveMission() {
         const data = polygons.map(p => ({
             lat: p.lat, lng: p.lng, angle: p.angle, color: p.color, 
@@ -313,15 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
                    setTimeout(() => saveBtn.innerHTML = '<span class="icon">💾</span> SAVE MISSION', 2000);
                 }
             }
-        } catch (e) { 
-            console.error(e); 
-            if (saveBtn) saveBtn.innerText = '✓ SAVED (LOCAL)';
-            localStorage.setItem('mission_save', JSON.stringify(data));
-        }
+        } catch (e) { console.error(e); }
     }
 
-    const saveMissionBtn = document.getElementById('save-mission-btn');
-    if (saveMissionBtn) saveMissionBtn.addEventListener('click', saveMission);
+    if (saveBtn) saveBtn.addEventListener('click', saveMission);
 
     loadMission();
 });
