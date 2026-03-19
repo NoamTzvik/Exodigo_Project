@@ -211,14 +211,58 @@ document.addEventListener('DOMContentLoaded', () => {
             const daySelected = btn.getAttribute('data-day');
             document.querySelectorAll('#day-filters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
+            const scheduleTitle = document.querySelector('#schedule-section .section-title');
+            if (scheduleTitle) scheduleTitle.innerText = (daySelected === 'all') ? 'WEEKLY PROTOCOL' : 'DAILY SCHEDULE';
+
+            document.querySelectorAll('#protocol-timeline .day-outline').forEach(outline => {
+                const outlineDay = outline.getAttribute('data-day');
+                // Correct Logic: Show specific day OR everything if 'all' is selected
+                outline.style.display = (daySelected === 'all' || outlineDay === daySelected) ? 'block' : 'none';
+            });
+
             polygons.forEach(p => {
                 const pDays = Array.isArray(p.day) ? p.day.map(String) : [String(p.day)];
                 const show = (daySelected === 'all') || pDays.includes(daySelected);
-                if (show) { p.layer.addTo(map); } else { map.removeLayer(p.layer); map.removeLayer(p.marker); }
+                if (show) { if (!map.hasLayer(p.layer)) p.layer.addTo(map); }
+                else { if (map.hasLayer(p.layer)) map.removeLayer(p.layer); map.removeLayer(p.marker); }
             });
             selectPolygon(-1);
         });
     });
+
+    // --- SAVE LOGIC ---
+    async function saveMission() {
+        const data = polygons.map(p => ({
+            lat: p.lat, lng: p.lng, angle: p.angle, color: p.color, 
+            name: p.name, type: p.type, groupId: p.groupId, day: p.day
+        }));
+        
+        const saveBtn = document.getElementById('save-mission-btn');
+        if (saveBtn) saveBtn.innerText = 'SAVING...';
+        
+        try {
+            const resp = await fetch('/api/mission', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (resp.ok) {
+                if (saveBtn) {
+                   saveBtn.innerText = '✓ SAVED';
+                   setTimeout(() => saveBtn.innerText = 'SAVE MISSION', 2000);
+                }
+            } else {
+                if (saveBtn) saveBtn.innerText = 'SAVE FAILED';
+            }
+        } catch (e) {
+            console.error(e);
+            if (saveBtn) saveBtn.innerText = 'SAVE ERROR';
+        }
+    }
+
+    const saveBtn = document.getElementById('save-mission-btn');
+    if (saveBtn) saveBtn.addEventListener('click', saveMission);
 
     loadMission();
 });
