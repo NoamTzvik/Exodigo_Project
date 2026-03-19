@@ -162,83 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         redrawObject(p);
     });
 
-    // --- BAKED DATA (65 OBJECTS - UNIFIED & ALIGNED) ---
-    const BAKED_DATA = [
-        // BLACK (Day 2) - Aligned to 155
-        {"lat": 40.24470990088907, "lng": -77.17225492000581, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 1", "type": "sector", "day": 2},
-        {"lat": 40.24443146629067, "lng": -77.17253923416139, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 2", "type": "sector", "day": 2},
-        {"lat": 40.244075232119826, "lng": -77.17259824275972, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 3", "type": "sector", "day": 2},
-        {"lat": 40.24371490139624, "lng": -77.17252850532533, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 4", "type": "sector", "day": 2},
-        {"lat": 40.24338323164866, "lng": -77.17234611511232, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 5", "type": "sector", "day": 2},
-        {"lat": 40.243117075737736, "lng": -77.1720188856125, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 6", "type": "sector", "day": 2},
-        {"lat": 40.24286729770028, "lng": -77.17167019844057, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 7", "type": "sector", "day": 2},
-        {"lat": 40.24256838178838, "lng": -77.17142879962923, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 8", "type": "sector", "day": 2},
-        {"lat": 40.2422203273511, "lng": -77.17141807079317, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 9", "type": "sector", "day": 2},
-        {"lat": 40.24199920948497, "lng": -77.1714609861374, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 10", "type": "sector", "day": 2},
-
-        // WHITE (Day 5) - Aligned to 155
-        {"lat": 40.24556157608081, "lng": -77.17238903045656, "angle": 155, "color": "#ffffff", "name": "פוליגון 1", "type": "sector", "day": 5},
-        {"lat": 40.245234009967476, "lng": -77.17222809791566, "angle": 155, "color": "#ffffff", "name": "פוליגון 2", "type": "sector", "day": 5},
-        {"lat": 40.244926915296595, "lng": -77.17199742794038, "angle": 155, "color": "#ffffff", "name": "פוליגון 3", "type": "sector", "day": 5},
-        {"lat": 40.24461572460895, "lng": -77.17175602912903, "angle": 155, "color": "#ffffff", "name": "פוליגון 4", "type": "sector", "day": 5},
-        {"lat": 40.24430862713315, "lng": -77.17153072357179, "angle": 155, "color": "#ffffff", "name": "פוליגון 5", "type": "sector", "day": 5},
-        {"lat": 40.24399333894197, "lng": -77.17132687568666, "angle": 155, "color": "#ffffff", "name": "פוליגון 6", "type": "sector", "day": 5},
-        {"lat": 40.243678049282316, "lng": -77.1710640192032, "angle": 155, "color": "#ffffff", "name": "פוליגון 7", "type": "sector", "day": 5},
-        {"lat": 40.24348559902806, "lng": -77.17067241668703, "angle": 155, "color": "#ffffff", "name": "פוליגון 8", "type": "sector", "day": 5},
-        {"lat": 40.243436462705255, "lng": -77.17021644115448, "angle": 155, "color": "#ffffff", "name": "פוליגון 9", "type": "sector", "day": 5},
-        {"lat": 40.24351016717609, "lng": -77.16975510120393, "angle": 155, "color": "#ffffff", "name": "פוליגון 10", "type": "sector", "day": 5},
-
-        // BLUE (Day 1) - Aligned to 120
-        {"lat": 40.24645623295087, "lng": -77.17006623744966, "angle": 120, "color": "#00f0ff", "name": "פוליגון 1", "type": "sector", "day": 1},
-        {"lat": 40.246155285621036, "lng": -77.16982483863832, "angle": 120, "color": "#00f0ff", "name": "פוליגון 2", "type": "sector", "day": 1},
-        {"lat": 40.245862526050274, "lng": -77.16958343982698, "angle": 120, "color": "#00f0ff", "name": "פוליגון 3", "type": "sector", "day": 1},
-        {"lat": 40.24556567064719, "lng": -77.16935276985168, "angle": 120, "color": "#00f0ff", "name": "פוליגון 4", "type": "sector", "day": 1},
-        {"lat": 40.245236057260605, "lng": -77.1691757440567, "angle": 110, "color": "#00f0ff", "name": "פוליגון 5", "type": "sector", "day": 1},
-        {"lat": 40.244900300359525, "lng": -77.16905504465105, "angle": 100, "color": "#00f0ff", "name": "פוליגון 6", "type": "sector", "day": 1},
-        {"lat": 40.24445, "lng": -77.16901481151582, "angle": 90, "color": "#00f0ff", "name": "פוליגון 7", "type": "sector", "day": 1},
-        {"lat": 40.244218544942655, "lng": -77.16905236244203, "angle": 80, "color": "#00f0ff", "name": "פוליגון 8", "type": "sector", "day": 1},
-        {"lat": 40.24389506699777, "lng": -77.16918379068376, "angle": 60, "color": "#00f0ff", "name": "פוליגון 9", "type": "sector", "day": 1},
-
-        // ORANGE (Day 4) - Smoothed Curve
-        {"lat": 40.24507022631638, "lng": -77.17415928840639, "angle": 156, "color": "#ff9d00", "name": "פוליגון 1", "type": "sector", "day": 4},
-        {"lat": 40.244791793200065, "lng": -77.17401444911957, "angle": 140, "color": "#ff9d00", "name": "פוליגון 2", "type": "sector", "day": 4},
-        {"lat": 40.24442327702043, "lng": -77.17406272888185, "angle": 120, "color": "#ff9d00", "name": "פוליגון 3", "type": "sector", "day": 4},
-        {"lat": 40.244062948149455, "lng": -77.17401444911957, "angle": 105, "color": "#ff9d00", "name": "פוליגון 4", "type": "sector", "day": 4},
-        {"lat": 40.24372309075217, "lng": -77.1739447116852, "angle": 100, "color": "#ff9d00", "name": "פוליגון 5", "type": "sector", "day": 4},
-        {"lat": 40.24336275815419, "lng": -77.1738588809967, "angle": 95, "color": "#ff9d00", "name": "פוליגון 6", "type": "sector", "day": 4},
-        {"lat": 40.24301061308037, "lng": -77.17376232147218, "angle": 90, "color": "#ff9d00", "name": "פוליגון 7", "type": "sector", "day": 4},
-        {"lat": 40.242674845141195, "lng": -77.17357456684114, "angle": 80, "color": "#ff9d00", "name": "פוליגון 8", "type": "sector", "day": 4},
-        {"lat": 40.24249058154004, "lng": -77.17317223548889, "angle": 70, "color": "#ff9d00", "name": "פוליגון 9", "type": "sector", "day": 4},
-        {"lat": 40.2425274343004, "lng": -77.1727216243744, "angle": 60, "color": "#ff9d00", "name": "פוליגון 10", "type": "sector", "day": 4},
-        {"lat": 40.242748550441235, "lng": -77.17235147953035, "angle": 50, "color": "#ff9d00", "name": "פוליגון 11", "type": "sector", "day": 4},
-
-        // BROWN (Day 3)
-        {"lat": 40.24338323164866, "lng": -77.16937422752382, "angle": 155, "color": "#8b4513", "name": "פוליגון 1", "type": "sector", "day": 3},
-        {"lat": 40.24305565499428, "lng": -77.16926157474519, "angle": 155, "color": "#8b4513", "name": "פוליגון 2", "type": "sector", "day": 3},
-        {"lat": 40.2429, "lng": -77.1689772605896, "angle": 155, "color": "#8b4513", "name": "פוליגון 3", "type": "sector", "day": 3},
-        {"lat": 40.24272807675484, "lng": -77.16947615146637, "angle": 155, "color": "#8b4513", "name": "פוליגון 4", "type": "sector", "day": 3},
-        {"lat": 40.242547908047484, "lng": -77.1698945760727, "angle": 155, "color": "#8b4513", "name": "פוליגון 5", "type": "sector", "day": 3},
-        {"lat": 40.24433933694343, "lng": -77.16937959194185, "angle": 155, "color": "#8b4513", "name": "פוליגון 6", "type": "sector", "day": 3},
-        {"lat": 40.244419182384945, "lng": -77.16984629631044, "angle": 155, "color": "#8b4513", "name": "פוליגון 7", "type": "sector", "day": 3},
-        {"lat": 40.244636197724475, "lng": -77.17022716999055, "angle": 155, "color": "#8b4513", "name": "פוליגון 8", "type": "sector", "day": 3},
-        {"lat": 40.245234009967476, "lng": -77.17069923877717, "angle": 155, "color": "#8b4513", "name": "פוליגון 9", "type": "sector", "day": 3},
-        {"lat": 40.245553386947286, "lng": -77.17092454433443, "angle": 155, "color": "#8b4513", "name": "פוליגון 10", "type": "sector", "day": 3},
-        {"lat": 40.24585228967874, "lng": -77.17114448547365, "angle": 155, "color": "#8b4513", "name": "פוליגון 11", "type": "sector", "day": 3},
-
-        // BARRIERS & OTHERS
-        {"lat": 40.24440689847699, "lng": -77.16899871826172, "angle": 43, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"},
-        {"lat": 40.24431476909634, "lng": -77.16927498579027, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"},
-        {"lat": 40.24353268797061, "lng": -77.16948151588441, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"},
-        {"lat": 40.244815337221134, "lng": -77.17205107212068, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"},
-        {"lat": 40.242977855305945, "lng": -77.17209398746492, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"},
-        {"lat": 40.241816991441404, "lng": -77.17128798336559, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"},
-        {"lat": 40.24232883863233, "lng": -77.17297643423082, "angle": 53, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"},
-        {"lat": 40.24670804499462, "lng": -77.17024326324464, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"},
-        {"lat": 40.24505896617581, "lng": -77.17162862420082, "angle": 69, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"},
-        {"lat": 40.242846824049785, "lng": -77.16856151819229, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"},
-        {"lat": 40.24245168138233, "lng": -77.17023789882661, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"},
-        {"lat": 40.24522582079434, "lng": -77.1745938062668, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}
-    ];
+    // --- BAKED DATA (SYNCHRONIZED WITH MISSION_DATA.JSON) ---
+    const BAKED_DATA = [{"lat": 40.24470990088907, "lng": -77.17225492000581, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 1", "type": "sector", "day": 2}, {"lat": 40.24443146629067, "lng": -77.17253923416139, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 2", "type": "sector", "day": 2}, {"lat": 40.244075232119826, "lng": -77.17259824275972, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 3", "type": "sector", "day": 2}, {"lat": 40.24371490139624, "lng": -77.17252850532533, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 4", "type": "sector", "day": 2}, {"lat": 40.24338323164866, "lng": -77.17234611511232, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 5", "type": "sector", "day": 2}, {"lat": 40.243117075737736, "lng": -77.1720188856125, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 6", "type": "sector", "day": 2}, {"lat": 40.24286729770028, "lng": -77.17167019844057, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 7", "type": "sector", "day": 2}, {"lat": 40.24256838178838, "lng": -77.17142879962923, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 8", "type": "sector", "day": 2}, {"lat": 40.2422203273511, "lng": -77.17141807079317, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 9", "type": "sector", "day": 2}, {"lat": 40.24199920948497, "lng": -77.1714609861374, "angle": 155, "color": "#2a2a2a", "name": "פוליגון 10", "type": "sector", "day": 2}, {"lat": 40.24556157608081, "lng": -77.17238903045656, "angle": 155, "color": "#ffffff", "name": "פוליגון 1", "type": "sector", "day": 5}, {"lat": 40.245234009967476, "lng": -77.17222809791566, "angle": 155, "color": "#ffffff", "name": "פוליגון 2", "type": "sector", "day": 5}, {"lat": 40.244926915296595, "lng": -77.17199742794038, "angle": 155, "color": "#ffffff", "name": "פוליגון 3", "type": "sector", "day": 5}, {"lat": 40.24461572460895, "lng": -77.17175602912903, "angle": 155, "color": "#ffffff", "name": "פוליגון 4", "type": "sector", "day": 5}, {"lat": 40.24430862713315, "lng": -77.17153072357179, "angle": 155, "color": "#ffffff", "name": "פוליגון 5", "type": "sector", "day": 5}, {"lat": 40.24399333894197, "lng": -77.17132687568666, "angle": 155, "color": "#ffffff", "name": "פוליגון 6", "type": "sector", "day": 5}, {"lat": 40.243678049282316, "lng": -77.1710640192032, "angle": 155, "color": "#ffffff", "name": "פוליגון 7", "type": "sector", "day": 5}, {"lat": 40.24348559902806, "lng": -77.17067241668703, "angle": 155, "color": "#ffffff", "name": "פוליגון 8", "type": "sector", "day": 5}, {"lat": 40.243436462705255, "lng": -77.17021644115448, "angle": 155, "color": "#ffffff", "name": "פוליגון 9", "type": "sector", "day": 5}, {"lat": 40.24351016717609, "lng": -77.16975510120393, "angle": 155, "color": "#ffffff", "name": "פוליגון 10", "type": "sector", "day": 5}, {"lat": 40.24645623295087, "lng": -77.17006623744966, "angle": 120, "color": "#00f0ff", "name": "פוליגון 1", "type": "sector", "day": 1}, {"lat": 40.246155285621036, "lng": -77.16982483863832, "angle": 120, "color": "#00f0ff", "name": "פוליגון 2", "type": "sector", "day": 1}, {"lat": 40.245862526050274, "lng": -77.16958343982698, "angle": 120, "color": "#00f0ff", "name": "פוליגון 3", "type": "sector", "day": 1}, {"lat": 40.24556567064719, "lng": -77.16935276985168, "angle": 120, "color": "#00f0ff", "name": "פוליגון 4", "type": "sector", "day": 1}, {"lat": 40.245236057260605, "lng": -77.1691757440567, "angle": 110, "color": "#00f0ff", "name": "פוליגון 5", "type": "sector", "day": 1}, {"lat": 40.244900300359525, "lng": -77.16905504465105, "angle": 100, "color": "#00f0ff", "name": "פוליגון 6", "type": "sector", "day": 1}, {"lat": 40.24445, "lng": -77.16901481151582, "angle": 90, "color": "#00f0ff", "name": "פוליגון 7", "type": "sector", "day": 1}, {"lat": 40.244218544942655, "lng": -77.16905236244203, "angle": 80, "color": "#00f0ff", "name": "פוליגון 8", "type": "sector", "day": 1}, {"lat": 40.24389506699777, "lng": -77.16918379068376, "angle": 60, "color": "#00f0ff", "name": "פוליגון 9", "type": "sector", "day": 1}, {"lat": 40.24507022631638, "lng": -77.17415928840639, "angle": 156, "color": "#ff9d00", "name": "פוליגון 1", "type": "sector", "day": 4}, {"lat": 40.244791793200065, "lng": -77.17401444911957, "angle": 140, "color": "#ff9d00", "name": "פוליגון 2", "type": "sector", "day": 4}, {"lat": 40.24442327702043, "lng": -77.17406272888185, "angle": 120, "color": "#ff9d00", "name": "פוליגון 3", "type": "sector", "day": 4}, {"lat": 40.244062948149455, "lng": -77.17401444911957, "angle": 105, "color": "#ff9d00", "name": "פוליגון 4", "type": "sector", "day": 4}, {"lat": 40.24372309075217, "lng": -77.1739447116852, "angle": 100, "color": "#ff9d00", "name": "פוליגון 5", "type": "sector", "day": 4}, {"lat": 40.24336275815419, "lng": -77.1738588809967, "angle": 95, "color": "#ff9d00", "name": "פוליגון 6", "type": "sector", "day": 4}, {"lat": 40.24301061308037, "lng": -77.17376232147218, "angle": 90, "color": "#ff9d00", "name": "פוליגון 7", "type": "sector", "day": 4}, {"lat": 40.242674845141195, "lng": -77.17357456684114, "angle": 80, "color": "#ff9d00", "name": "פוליגון 8", "type": "sector", "day": 4}, {"lat": 40.24249058154004, "lng": -77.17317223548889, "angle": 70, "color": "#ff9d00", "name": "פוליגון 9", "type": "sector", "day": 4}, {"lat": 40.2425274343004, "lng": -77.1727216243744, "angle": 60, "color": "#ff9d00", "name": "פוליגון 10", "type": "sector", "day": 4}, {"lat": 40.242748550441235, "lng": -77.17235147953035, "angle": 50, "color": "#ff9d00", "name": "פוליגון 11", "type": "sector", "day": 4}, {"lat": 40.24338323164866, "lng": -77.16937422752382, "angle": 155, "color": "#8b4513", "name": "פוליגון 1", "type": "sector", "day": 3}, {"lat": 40.24305565499428, "lng": -77.16926157474519, "angle": 155, "color": "#8b4513", "name": "פוליגון 2", "type": "sector", "day": 3}, {"lat": 40.2429, "lng": -77.1689772605896, "angle": 155, "color": "#8b4513", "name": "פוליגון 3", "type": "sector", "day": 3}, {"lat": 40.24272807675484, "lng": -77.16947615146637, "angle": 155, "color": "#8b4513", "name": "פוליגון 4", "type": "sector", "day": 3}, {"lat": 40.242547908047484, "lng": -77.1698945760727, "angle": 155, "color": "#8b4513", "name": "פוליגון 5", "type": "sector", "day": 3}, {"lat": 40.24433933694343, "lng": -77.16937959194185, "angle": 155, "color": "#8b4513", "name": "פוליגון 6", "type": "sector", "day": 3}, {"lat": 40.244419182384945, "lng": -77.16984629631044, "angle": 155, "color": "#8b4513", "name": "פוליגון 7", "type": "sector", "day": 3}, {"lat": 40.244636197724475, "lng": -77.17022716999055, "angle": 155, "color": "#8b4513", "name": "פוליגון 8", "type": "sector", "day": 3}, {"lat": 40.245234009967476, "lng": -77.17069923877717, "angle": 155, "color": "#8b4513", "name": "פוליגון 9", "type": "sector", "day": 3}, {"lat": 40.245553386947286, "lng": -77.17092454433443, "angle": 155, "color": "#8b4513", "name": "פוליגון 10", "type": "sector", "day": 3}, {"lat": 40.24585228967874, "lng": -77.17114448547365, "angle": 155, "color": "#8b4513", "name": "פוליגון 11", "type": "sector", "day": 3}, {"lat": 40.24440689847699, "lng": -77.16899871826172, "angle": 43, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"}, {"lat": 40.24431476909634, "lng": -77.16927498579027, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"}, {"lat": 40.24353268797061, "lng": -77.16948151588441, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"}, {"lat": 40.244815337221134, "lng": -77.17205107212068, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"}, {"lat": 40.242977855305945, "lng": -77.17209398746492, "angle": 0, "color": "#ff3e3e", "name": "חסימת ציר", "type": "barrier", "day": "roadblock"}, {"lat": 40.241816991441404, "lng": -77.17128798336559, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}, {"lat": 40.24232883863233, "lng": -77.17297643423082, "angle": 53, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}, {"lat": 40.24670804499462, "lng": -77.17024326324464, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}, {"lat": 40.24505896617581, "lng": -77.17162862420082, "angle": 69, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}, {"lat": 40.242846824049785, "lng": -77.16856151819229, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}, {"lat": 40.24245168138233, "lng": -77.17023789882661, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}, {"lat": 40.24522582079434, "lng": -77.1745938062668, "angle": 0, "color": "#ffff00", "name": "נקי מפתח", "type": "barrier", "day": "prescan"}];
 
     async function loadMission() {
         let sourceData = BAKED_DATA;
@@ -249,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await resp.json();
                 if (Array.isArray(data) && data.length > 0) sourceData = data;
             }
-        } catch (e) { console.log("Baked fallback."); }
+        } catch (e) { console.log("Using baked data fallback."); }
 
         sourceData.forEach(d => {
             polygons.push(createObject(d.lat, d.lng, d.angle, d.color, d.name, d.type, d.groupId, d.day));
@@ -267,15 +192,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- FILTERS ---
+    // --- TEMPORAL FILTERS ---
     document.querySelectorAll('#day-filters .filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const day = btn.getAttribute('data-day');
+        btn.addEventListener('click', (e) => {
+            const daySelected = btn.getAttribute('data-day');
             document.querySelectorAll('#day-filters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             polygons.forEach(p => {
-                const show = (day === 'all') || (String(p.day) === day);
+                const pDays = Array.isArray(p.day) ? p.day.map(String) : [String(p.day)];
+                const show = (daySelected === 'all') || pDays.includes(daySelected);
                 if (show) { p.layer.addTo(map); } 
                 else { map.removeLayer(p.layer); map.removeLayer(p.marker); }
             });
@@ -283,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- SAVE ---
+    // --- SAVE LOGIC ---
     async function saveMission() {
         const data = polygons.map(p => ({
             lat: p.lat, lng: p.lng, angle: p.angle, color: p.color, 
@@ -303,9 +229,10 @@ document.addEventListener('DOMContentLoaded', () => {
                    setTimeout(() => saveBtn.innerHTML = '<span class="icon">💾</span> SAVE MISSION', 2000);
                 }
             }
-        } catch (e) {
-            localStorage.setItem('mission_save', JSON.stringify(data));
+        } catch (e) { 
+            console.error(e); 
             if (saveBtn) saveBtn.innerText = '✓ SAVED (LOCAL)';
+            localStorage.setItem('mission_save', JSON.stringify(data));
         }
     }
 
