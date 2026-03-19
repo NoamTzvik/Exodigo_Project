@@ -78,14 +78,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const rad = (angle * Math.PI) / 180;
         if (type === 'sector' || type === 'barrier') {
             const size = type === 'sector' ? {y:20, x:5.5} : {y:3, x:3};
-            const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.y}];
+            const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.x}];
             const rotated = corners.map(c => [lat + (c.y*Math.sin(rad)+c.x*Math.cos(rad))*latPerMeter, lng + (c.y*Math.cos(rad)-c.x*Math.sin(rad))*lonPerMeter]);
-            layer = L.polygon(rotated, { color: color, weight: 3, fillOpacity: type === 'sector' ? 0.2 : 0.6 });
+            layer = L.polygon(rotated, { color: color, weight: 5, fillOpacity: type === 'sector' ? 0.2 : 0.6 });
         } else {
-            layer = L.circle([lat, lng], { radius: 0.5, color: color, weight: 2, fillOpacity: 0.5 });
+            layer = L.circle([lat, lng], { radius: 0.5, color: color, weight: 3, fillOpacity: 0.5 });
         }
         layer.addTo(map);
         if (name) layer.bindTooltip(name, { permanent: true, direction: 'center', className: 'poly-label' });
+
+        const marker = L.marker([lat, lng], {
+            draggable: false, // Static on Vercel
+            icon: L.divIcon({ className: 'drag-handle-container', html: '<div></div>', iconSize: [12, 12] })
+        });
         
         let day = dayOverride;
         if (!day) {
@@ -99,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (color === '#ffffff') day = 5;
         }
 
-        return { layer, lat, lng, angle, color, name, type, day, groupId };
+        return { layer, marker, lat, lng, angle, color, name, type, day, groupId };
     }
 
     const BAKED_DATA = [
@@ -192,8 +197,14 @@ document.addEventListener('DOMContentLoaded', () => {
             polygons.forEach(p => {
                 const pDays = Array.isArray(p.day) ? p.day.map(String) : [String(p.day)];
                 const show = (daySelected === 'all') || pDays.includes(daySelected);
-                if (show) { if (!map.hasLayer(p.layer)) p.layer.addTo(map); }
-                else { if (map.hasLayer(p.layer)) map.removeLayer(p.layer); }
+                if (show) { 
+                    if (!map.hasLayer(p.layer)) p.layer.addTo(map); 
+                    if (!map.hasLayer(p.marker)) p.marker.addTo(map);
+                }
+                else { 
+                    if (map.hasLayer(p.layer)) map.removeLayer(p.layer); 
+                    if (map.hasLayer(p.marker)) map.removeLayer(p.marker);
+                }
             });
         });
     });
