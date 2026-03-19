@@ -37,16 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createObject(lat, lng, angle = 0, color = '#00f0ff', name = '', type = 'sector', groupId = null, dayOverride = null) {
         let layer;
-        const latPerMeter = 0.000009; const lonPerMeter = 0.000012;
+        const latPerMeter = 1 / 111320; 
+        const lonPerMeter = 1 / (40075000 * Math.cos(lat * Math.PI / 180) / 360);
         const rad = (angle * Math.PI) / 180;
         
         if (type === 'sector' || type === 'barrier') {
             const size = type === 'sector' ? {y:20, x:5} : {y:3, x:3};
-            const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.y}];
-            const rotated = corners.map(c => [lat + (c.y*Math.sin(rad)+c.x*Math.cos(rad))*latPerMeter, lng + (c.y*Math.cos(rad)-c.x*Math.sin(rad))*lonPerMeter]);
-            layer = L.polygon(rotated, { color: color, weight: 5, fillOpacity: type === 'sector' ? 0.2 : 0.6, zIndex: 500 });
+            // Precise rectangular corner calculation
+            const corners = [
+                {y: size.y, x: size.x},   // Top Right
+                {y: size.y, x: -size.x},  // Top Left
+                {y: -size.y, x: -size.x}, // Bottom Left
+                {y: -size.y, x: size.x}   // Bottom Right
+            ];
+            const rotated = corners.map(c => [
+                lat + (c.y * Math.cos(rad) - c.x * Math.sin(rad)) * latPerMeter,
+                lng + (c.y * Math.sin(rad) + c.x * Math.cos(rad)) * lonPerMeter
+            ]);
+            layer = L.polygon(rotated, { color: color, weight: 3, fillOpacity: 0.2, zIndex: 500 });
         } else {
-            layer = L.circle([lat, lng], { radius: (type === 'array' ? 4 : 0.5), color: color, weight: 3, fillOpacity: 0.5, zIndex: 600 });
+            layer = L.circle([lat, lng], { radius: 1, color: color, weight: 3, fillOpacity: 0.5, zIndex: 600 });
         }
         
         layer.addTo(map);
@@ -86,12 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function redrawObject(p) {
-        const latPerMeter = 0.000009; const lonPerMeter = 0.000012;
+        const latPerMeter = 1 / 111320;
+        const lonPerMeter = 1 / (40075000 * Math.cos(p.lat * Math.PI / 180) / 360);
         const rad = (p.angle * Math.PI) / 180;
+        
         if (p.type === 'sector' || p.type === 'barrier') {
             const size = p.type === 'sector' ? {y:20, x:5} : {y:3, x:3};
-            const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.y}];
-            const rotated = corners.map(c => [p.lat + (c.y*Math.sin(rad)+c.x*Math.cos(rad))*latPerMeter, p.lng + (c.y*Math.cos(rad)-c.x*Math.sin(rad))*lonPerMeter]);
+            const corners = [
+                {y: size.y, x: size.x},   // Top Right
+                {y: size.y, x: -size.x},  // Top Left
+                {y: -size.y, x: -size.x}, // Bottom Left
+                {y: -size.y, x: size.x}   // Bottom Right
+            ];
+            const rotated = corners.map(c => [
+                p.lat + (c.y * Math.cos(rad) - c.x * Math.sin(rad)) * latPerMeter,
+                p.lng + (c.y * Math.sin(rad) + c.x * Math.cos(rad)) * lonPerMeter
+            ]);
             p.layer.setLatLngs(rotated);
         } else {
             p.layer.setLatLng([p.lat, p.lng]);
