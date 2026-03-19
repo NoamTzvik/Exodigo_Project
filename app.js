@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const latPerMeter = 0.000009; const lonPerMeter = 0.000012;
         const rad = (angle * Math.PI) / 180;
         if (type === 'sector' || type === 'barrier') {
-            const size = type === 'sector' ? {y:20, x:5.5} : {y:3, x:3};
+            const size = type === 'sector' ? {y:20, x:5} : {y:3, x:3};
             const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.y}];
             const rotated = corners.map(c => [lat + (c.y*Math.sin(rad)+c.x*Math.cos(rad))*latPerMeter, lng + (c.y*Math.cos(rad)-c.x*Math.sin(rad))*lonPerMeter]);
             layer = L.polygon(rotated, { color: color, weight: 5, fillOpacity: type === 'sector' ? 0.2 : 0.6 });
