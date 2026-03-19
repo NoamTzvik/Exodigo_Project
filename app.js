@@ -20,6 +20,69 @@ document.addEventListener('DOMContentLoaded', () => {
     let isAddMode = false;
     let currentShape = 'sector';
 
+    // --- SCHEDULE PROTOCOL MODAL ---
+    const scheduleTitle = document.getElementById('schedule-title');
+    if (scheduleTitle) {
+        scheduleTitle.style.cursor = 'pointer';
+        scheduleTitle.style.transition = 'color 0.3s';
+        scheduleTitle.title = 'Click to view full weekly protocol';
+        scheduleTitle.onmouseover = () => scheduleTitle.style.color = '#00f0ff';
+        scheduleTitle.onmouseout = () => scheduleTitle.style.color = '';
+
+        scheduleTitle.addEventListener('click', () => {
+            const modal = document.createElement('div');
+            modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;padding:25px;border-radius:20px;border:1px solid #00f0ff;z-index:10000;width:90%;max-width:900px;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(0,0,0,0.9);color:#fff;font-family:sans-serif;";
+            
+            modal.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #333;padding-bottom:15px;">
+                    <h2 style="margin:0;color:#00f0ff;display:flex;align-items:center;gap:10px;"><span style="font-size:24px;">📅</span> WEEKLY MISSION PROTOCOL</h2>
+                    <button id="close-schedule" style="background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer;">&times;</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:15px;">
+                    <div style="background:#1a1a1a;padding:15px;border-radius:12px;border-top:4px solid #00f0ff;">
+                        <h3 style="color:#00f0ff;margin-top:0;">MONDAY</h3>
+                        <p style="font-size:13px;margin:5px 0;"><strong>08:30</strong> Travel</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>09:00</strong> Staff Meeting</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>10:30</strong> Day 1 Scan (Blue)</p>
+                    </div>
+                    <div style="background:#1a1a1a;padding:15px;border-radius:12px;border-top:4px solid #2a2a2a;">
+                        <h3 style="color:#666;margin-top:0;">TUESDAY</h3>
+                        <p style="font-size:13px;margin:5px 0;"><strong>07:30</strong> Briefing</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>08:30</strong> Day 2 Scan (Black)</p>
+                    </div>
+                    <div style="background:#1a1a1a;padding:15px;border-radius:12px;border-top:4px solid #8b4513;">
+                        <h3 style="color:#8b4513;margin-top:0;">WEDNESDAY</h3>
+                        <p style="font-size:13px;margin:5px 0;"><strong>08:00</strong> Day 3 Scan (Brown)</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>14:00</strong> Equipment Check</p>
+                    </div>
+                    <div style="background:#1a1a1a;padding:15px;border-radius:12px;border-top:4px solid #ff9d00;">
+                        <h3 style="color:#ff9d00;margin-top:0;">THURSDAY</h3>
+                        <p style="font-size:13px;margin:5px 0;"><strong>07:30</strong> Briefing</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>08:30</strong> Day 4 Scan (Orange)</p>
+                    </div>
+                    <div style="background:#1a1a1a;padding:15px;border-radius:12px;border-top:4px solid #ffffff;">
+                        <h3 style="color:#fff;margin-top:0;">FRIDAY</h3>
+                        <p style="font-size:13px;margin:5px 0;"><strong>08:30</strong> Day 5 Scan (White)</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>14:00</strong> Final Audit</p>
+                        <p style="font-size:13px;margin:5px 0;"><strong>16:00</strong> Departure</p>
+                    </div>
+                </div>
+                <div style="margin-top:20px;padding:15px;background:rgba(0,240,255,0.05);border-radius:10px;border:1px dashed #00f0ff;">
+                    <p style="margin:0;font-size:12px;color:#00f0ff;text-align:center;">* MANDATORY FIELD BRIEFINGS EVERY MORNING AT 07:30 *</p>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.getElementById('close-schedule').onclick = () => modal.remove();
+            
+            // Background blur effect
+            const overlay = document.createElement('div');
+            overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);z-index:9999;";
+            document.body.appendChild(overlay);
+            document.getElementById('close-schedule').addEventListener('click', () => overlay.remove());
+            overlay.onclick = () => { modal.remove(); overlay.remove(); };
+        });
+    }
+
     // --- INJECT DEPLOY BUTTON ---
     const saveBtn = document.getElementById('save-mission-btn');
     if (saveBtn) {
@@ -39,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
             const code = JSON.stringify(data);
             const modal = document.createElement('div');
-            modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;padding:20px;border-radius:15px;border:1px solid #ff9d00;z-index:9999;width:80%;max-width:600px;box-shadow:0 0 50px rgba(0,0,0,0.8);color:#fff;font-family:sans-serif;";
+            modal.style = "position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;padding:20px;border-radius:15px;border:1px solid #ff9d00;z-index:11000;width:80%;max-width:600px;box-shadow:0 0 50px rgba(0,0,0,0.8);color:#fff;font-family:sans-serif;";
             modal.innerHTML = `
                 <h2 style="margin-top:0;color:#ff9d00;">READY FOR VERCEL DEPLOYMENT 🛰️</h2>
                 <textarea id="deploy-code" style="width:100%;height:150px;background:#000;color:#00f0ff;border:1px solid #333;padding:10px;font-family:monospace;border-radius:8px;">${code}</textarea>
@@ -231,74 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectPolygon(-1);
     });
 
-    /** 
-     * BAKED_DATA: Reconstructed from visual reference 
-     * Includes RESTORED BROWN path (Day 3).
-     */
-    const BAKED_DATA = [
-        // GREEN (Center Top)
-        {"lat": 40.2472,"lng": -77.1724,"angle": 165,"color": "#00d166","name": "פוליגון 1","type": "sector","day": 6},
-        {"lat": 40.2468,"lng": -77.1722,"angle": 165,"color": "#00d166","name": "פוליגון 2","type": "sector","day": 6},
-        {"lat": 40.2464,"lng": -77.1720,"angle": 165,"color": "#00d166","name": "פוליגון 3","type": "sector","day": 6},
-        {"lat": 40.2460,"lng": -77.1718,"angle": 165,"color": "#00d166","name": "פוליגון 4","type": "sector","day": 6},
-        {"lat": 40.2456,"lng": -77.1716,"angle": 165,"color": "#00d166","name": "פוליגון 5","type": "sector","day": 6},
-        {"lat": 40.2452,"lng": -77.1714,"angle": 165,"color": "#00d166","name": "פוליגון 6","type": "sector","day": 6},
-
-        // WHITE (Inner Center)
-        {"lat": 40.24523, "lng": -77.17222, "angle": 165, "color": "#ffffff", "name": "פוליגון 1", "type": "sector", "day": 5},
-        {"lat": 40.24492, "lng": -77.17199, "angle": 165, "color": "#ffffff", "name": "פוליגון 2", "type": "sector", "day": 5},
-        {"lat": 40.24461, "lng": -77.17175, "angle": 165, "color": "#ffffff", "name": "פוליגון 3", "type": "sector", "day": 5},
-        {"lat": 40.24430, "lng": -77.17153, "angle": 165, "color": "#ffffff", "name": "פוליגון 4", "type": "sector", "day": 5},
-        {"lat": 40.24399, "lng": -77.17132, "angle": 165, "color": "#ffffff", "name": "פוליגון 5", "type": "sector", "day": 5},
-        {"lat": 40.24367, "lng": -77.17106, "angle": 165, "color": "#ffffff", "name": "פוליגון 6", "type": "sector", "day": 5},
-        {"lat": 40.24348, "lng": -77.17067, "angle": 160, "color": "#ffffff", "name": "פוליגון 7", "type": "sector", "day": 5},
-        {"lat": 40.24343, "lng": -77.17021, "angle": 155, "color": "#ffffff", "name": "פוליגון 8", "type": "sector", "day": 5},
-
-        // ORANGE (Left Curve)
-        {"lat": 40.24507,"lng": -77.17415,"angle": 170,"color": "#ff9d00","name": "פוליגון 1","type": "sector","day": 4},
-        {"lat": 40.24479,"lng": -77.17401,"angle": 170,"color": "#ff9d00","name": "פוליגון 2","type": "sector","day": 4},
-        {"lat": 40.24442,"lng": -77.17406,"angle": 170,"color": "#ff9d00","name": "פוליגון 3","type": "sector","day": 4},
-        {"lat": 40.24406,"lng": -77.17401,"angle": 170,"color": "#ff9d00","name": "פוליגון 4","type": "sector","day": 4},
-        {"lat": 40.24372,"lng": -77.17394,"angle": 165,"color": "#ff9d00","name": "פוליגון 5","type": "sector","day": 4},
-        {"lat": 40.24336,"lng": -77.17385,"angle": 160,"color": "#ff9d00","name": "פוליגון 6","type": "sector","day": 4},
-        {"lat": 40.24301,"lng": -77.17376,"angle": 155,"color": "#ff9d00","name": "פוליגון 7","type": "sector","day": 4},
-        {"lat": 40.24267,"lng": -77.17357,"angle": 145,"color": "#ff9d00","name": "פוליגון 8","type": "sector","day": 4},
-
-        // BLUE (Right Curve)
-        {"lat": 40.24645,"lng": -77.17006,"angle": 200,"color": "#00f0ff","name": "פוליגון 1","type": "sector","day": 1},
-        {"lat": 40.24615,"lng": -77.16982,"angle": 190,"color": "#00f0ff","name": "פוליגון 2","type": "sector","day": 1},
-        {"lat": 40.24586,"lng": -77.16958,"angle": 180,"color": "#00f0ff","name": "פוליגון 3","type": "sector","day": 1},
-        {"lat": 40.24556,"lng": -77.16935,"angle": 170,"color": "#00f0ff","name": "פוליגון 4","type": "sector","day": 1},
-        {"lat": 40.24523,"lng": -77.16917,"angle": 165,"color": "#00f0ff","name": "פוליגון 5","type": "sector","day": 1},
-        {"lat": 40.24490,"lng": -77.16905,"angle": 160,"color": "#00f0ff","name": "פוליגון 6","type": "sector","day": 1},
-        {"lat": 40.24445,"lng": -77.16901,"angle": 155,"color": "#00f0ff","name": "פוליגון 7","type": "sector","day": 1},
-        {"lat": 40.24421,"lng": -77.16905,"angle": 150,"color": "#00f0ff","name": "פוליגון 8","type": "sector","day": 1},
-
-        // BLACK (Inner Left)
-        {"lat": 40.24470, "lng": -77.17225, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 1", "type": "sector", "day": 2},
-        {"lat": 40.24443, "lng": -77.17253, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 2", "type": "sector", "day": 2},
-        {"lat": 40.24407, "lng": -77.17259, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 3", "type": "sector", "day": 2},
-        {"lat": 40.24371, "lng": -77.17252, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 4", "type": "sector", "day": 2},
-        {"lat": 40.24338, "lng": -77.17234, "angle": 165, "color": "#2a2a2a", "name": "פוליגון 5", "type": "sector", "day": 2},
-
-        // BROWN (Day 3) - RESTORED
-        {"lat": 40.243383, "lng": -77.169374, "angle": 119, "color": "#8b4513", "name": "פוליגון 1", "type": "sector", "day": 3},
-        {"lat": 40.243055, "lng": -77.169261, "angle": 262, "color": "#8b4513", "name": "פוליגון 2", "type": "sector", "day": 3},
-        {"lat": 40.242900, "lng": -77.168977, "angle": 164, "color": "#8b4513", "name": "פוליגון 3", "type": "sector", "day": 3},
-        {"lat": 40.242728, "lng": -77.169476, "angle": 50, "color": "#8b4513", "name": "פוליגון 4", "type": "sector", "day": 3},
-        {"lat": 40.242547, "lng": -77.169894, "angle": 16, "color": "#8b4513", "name": "פוליגון 5", "type": "sector", "day": 3},
-        {"lat": 40.244339, "lng": -77.169379, "angle": 171, "color": "#8b4513", "name": "פוליגון 6", "type": "sector", "day": 3},
-        {"lat": 40.244419, "lng": -77.169846, "angle": 155, "color": "#8b4513", "name": "פוליגון 7", "type": "sector", "day": 3},
-        {"lat": 40.244636, "lng": -77.170227, "angle": 128, "color": "#8b4513", "name": "פוליגון 8", "type": "sector", "day": 3},
-        {"lat": 40.245234, "lng": -77.170699, "angle": 117, "color": "#8b4513", "name": "פוליגון 9", "type": "sector", "day": 3},
-        {"lat": 40.245553, "lng": -77.170924, "angle": 119, "color": "#8b4513", "name": "פוליגון 10", "type": "sector", "day": 3},
-        {"lat": 40.245852, "lng": -77.171144, "angle": 119, "color": "#8b4513", "name": "פוליגון 11", "type": "sector", "day": 3},
-
-        // BARRIERS
-        {"lat": 40.24440,"lng": -77.16899,"angle": 43,"color": "#ff3e3e","name": "חסימת ציר","type": "barrier","day": "roadblock"},
-        {"lat": 40.24297,"lng": -77.17209,"angle": 0,"color": "#ff3e3e","name": "חסימת ציר","type": "barrier","day": "roadblock"},
-        {"lat": 40.24670,"lng": -77.17024,"angle": 0,"color": "#ffff00","name": "נקי מפתח","type": "barrier","day": "prescan"}
-    ];
+    const BAKED_DATA = [{"lat": 40.2472,"lng": -77.1724,"angle": 165,"color": "#00d166","name": "פוליגון 1","type": "sector","day": 6}, {"lat": 40.2468,"lng": -77.1722,"angle": 165,"color": "#00d166","name": "פוליגון 2","type": "sector","day": 6}, {"lat": 40.2464,"lng": -77.1720,"angle": 165,"color": "#00d166","name": "פוליגון 3","type": "sector","day": 6}, {"lat": 40.2460,"lng": -77.1718,"angle": 165,"color": "#00d166","name": "פוליגון 4","type": "sector","day": 6}, {"lat": 40.2456,"lng": -77.1716,"angle": 165,"color": "#00d166","name": "פוליגון 5","type": "sector","day": 6}, {"lat": 40.2452,"lng": -77.1714,"angle": 165,"color": "#00d166","name": "פוליגון 6","type": "sector","day": 6}, {"lat": 40.24523, "lng": -77.17222, "angle": 165, "color": "#ffffff", "name": "פוליגון 1", "type": "sector", "day": 5}, {"lat": 40.24492, "lng": -77.17199, "angle": 165, "color": "#ffffff", "name": "פוליגון 2", "type": "sector", "day": 5}, {"lat": 40.24461, "lng": -77.17175, "angle": 165, "color": "#ffffff", "name": "פוליגון 3", "type": "sector", "day": 5}, {"lat": 40.24430, "lng": -77.17153, "angle": 165, "color": "#ffffff", "name": "פוליגון 4", "type": "sector", "day": 5}, {"lat": 40.24399, "lng": -77.17132, "angle": 165, "color": "#ffffff", "name": "פוליגון 5", "type": "sector", "day": 5}, {"lat": 40.24367, "lng": -77.17106, "angle": 165, "color": "#ffffff", "name": "פוליגון 6", "type": "sector", "day": 5}, {"lat": 40.24348, "lng": -77.17067, "angle": 160, "color": "#ffffff", "name": "פוליגון 7", "type": "sector", "day": 5}, {"lat": 40.24343, "lng": -77.17021, "angle": 155, "color": "#ffffff", "name": "פוליגון 8", "type": "sector", "day": 5}, {"lat": 40.24507,"lng": -77.17415,"angle": 170,"color": "#ff9d00","name": "פוליגון 1","type": "sector","day": 4}, {"lat": 40.24479,"lng": -77.17401,"angle": 170,"color": "#ff9d00","name": "פוליגון 2","type": "sector","day": 4}, {"lat": 40.24442,"lng": -77.17406,"angle": 170,"color": "#ff9d00","name": "פוליגון 3","type": "sector","day": 4}, {"lat": 40.24406,"lng": -77.17401,"angle": 170,"color": "#ff9d00","name": "פוליגון 4","type": "sector","day": 4}, {"lat": 40.24372,"lng": -77.17394,"angle": 165,"color": "#ff9d00","name": "פוליגון 5","type": "sector","day": 4}, {"lat": 40.24336,"lng": -77.17385,"angle": 160,"color": "#ff9d00","name": "פוליגון 6","type": "sector","day": 4}, {"lat": 40.24301,"lng": -77.17376,"angle": 155,"color": "#ff9d00","name": "פוליגון 7","type": "sector","day": 4}, {"lat": 40.24267,"lng": -77.17357,"angle": 145,"color": "#ff9d00","name": "פוליגון 8","type": "sector","day": 4}, {"lat": 40.24645,"lng": -77.17006,"angle": 200,"color": "#00f0ff","name": "פוליגון 1","type": "sector","day": 1}, {"lat": 40.24615,"lng": -77.16982,"angle": 190,"color": "#00f0ff","name": "פוליגון 2","type": "sector","day": 1}, {"lat": 40.24586,"lng": -77.16958,"angle": 180,"color": "#00f0ff","name": "פוליגון 3","type": "sector","day": 1}, {"lat": 40.24556,"lng": -77.16935,"angle": 170,"color": "#00f0ff","name": "פוליגון 4","type": "sector","day": 1}, {"lat": 40.24523,"lng": -77.16917,"angle": 165,"color": "#00f0ff","name": "פוליגון 5","type": "sector","day": 1}, {"lat": 40.24490,"lng": -77.16905,"angle": 160,"color": "#00f0ff","name": "פוליגון 6","type": "sector","day": 1}, {"lat": 40.24445,"lng": -77.16901,"angle": 155,"color": "#00f0ff","name": "פוליגון 7","type": "sector", "day": 1}, {"lat": 40.24421,"lng": -77.16905,"angle": 150,"color": "#00f0ff","name": "פוליגון 8","type": "sector","day": 1}, {"lat": 40.24470, "lng": -77.17225, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 1", "type": "sector", "day": 2}, {"lat": 40.24443, "lng": -77.17253, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 2", "type": "sector", "day": 2}, {"lat": 40.24407, "lng": -77.17259, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 3", "type": "sector", "day": 2}, {"lat": 40.24371, "lng": -77.17252, "angle": 170, "color": "#2a2a2a", "name": "פוליגון 4", "type": "sector", "day": 2}, {"lat": 40.24338, "lng": -77.17234, "angle": 165, "color": "#2a2a2a", "name": "פוליגון 5", "type": "sector", "day": 2}, {"lat": 40.243383, "lng": -77.169374, "angle": 119, "color": "#8b4513", "name": "פוליגון 1", "type": "sector", "day": 3}, {"lat": 40.243055, "lng": -77.169261, "angle": 262, "color": "#8b4513", "name": "פוליגון 2", "type": "sector", "day": 3}, {"lat": 40.242900, "lng": -77.168977, "angle": 164, "color": "#8b4513", "name": "פוליגון 3", "type": "sector", "day": 3}, {"lat": 40.242728, "lng": -77.169476, "angle": 50, "color": "#8b4513", "name": "פוליגון 4", "type": "sector", "day": 3}, {"lat": 40.242547, "lng": -77.169894, "angle": 16, "color": "#8b4513", "name": "פוליגון 5", "type": "sector", "day": 3}, {"lat": 40.244339, "lng": -77.169379, "angle": 171, "color": "#8b4513", "name": "פוליגון 6", "type": "sector", "day": 3}, {"lat": 40.244419, "lng": -77.169846, "angle": 155, "color": "#8b4513", "name": "פוליגון 7", "type": "sector", "day": 3}, {"lat": 40.244636, "lng": -77.170227, "angle": 128, "color": "#8b4513", "name": "פוליגון 8", "type": "sector", "day": 3}, {"lat": 40.245234, "lng": -77.170699, "angle": 117, "color": "#8b4513", "name": "פוליגון 9", "type": "sector", "day": 3}, {"lat": 40.245553, "lng": -77.170924, "angle": 119, "color": "#8b4513", "name": "פוליגון 10", "type": "sector", "day": 3}, {"lat": 40.245852, "lng": -77.171144, "angle": 119, "color": "#8b4513", "name": "פוליגון 11", "type": "sector", "day": 3}, {"lat": 40.24440,"lng": -77.16899,"angle": 43,"color": "#ff3e3e","name": "חסימת ציר","type": "barrier","day": "roadblock"}, {"lat": 40.24297,"lng": -77.17209,"angle": 0,"color": "#ff3e3e","name": "חסימת ציר","type": "barrier","day": "roadblock"}, {"lat": 40.24670,"lng": -77.17024,"angle": 0,"color": "#ffff00","name": "נקי מפתח","type": "barrier","day": "prescan"}];
 
     async function loadMission() {
         let sourceData = BAKED_DATA;
@@ -323,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (statsPill) {
             const sectors = polygons.filter(p => p.type === 'sector').length;
             const roadblocks = polygons.filter(p => p.day === 'roadblock').length;
-            statsPill.innerHTML = `<strong>${sectors}</strong> SECTORS | <strong>${roadblocks}</strong> ROAD CLOSURES `;
+            statsPill.innerHTML = `<strong>${sectors}</strong> SECTORS | <strong>${roadblocks}</strong> ROAD CLOSURES`;
         }
     }
 
@@ -346,8 +342,8 @@ document.addEventListener('DOMContentLoaded', () => {
             lat: p.lat, lng: p.lng, angle: p.angle, color: p.color, 
             name: p.name, type: p.type, groupId: p.groupId, day: p.day
         }));
-        const saveBtn = document.getElementById('save-mission-btn');
-        if (saveBtn) saveBtn.innerText = 'SAVING...';
+        const sBtn = document.getElementById('save-mission-btn');
+        if (sBtn) sBtn.innerText = 'SAVING...';
         try {
             const resp = await fetch('/api/mission', {
                 method: 'POST',
@@ -355,15 +351,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(data)
             });
             if (resp.ok) {
-                if (saveBtn) {
-                   saveBtn.innerText = '✓ SAVED';
-                   setTimeout(() => saveBtn.innerHTML = '<span class="icon">💾</span> SAVE MISSION', 2000);
+                if (sBtn) {
+                   sBtn.innerText = '✓ SAVED';
+                   setTimeout(() => sBtn.innerHTML = '<span class="icon">💾</span> SAVE MISSION', 2000);
                 }
             }
         } catch (e) { console.error(e); }
     }
 
-    if (saveBtn) saveBtn.addEventListener('click', saveMission);
+    const saveMissionBtn = document.getElementById('save-mission-btn');
+    if (saveMissionBtn) saveMissionBtn.addEventListener('click', saveMission);
 
     loadMission();
 });
