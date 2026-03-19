@@ -1,0 +1,82 @@
+Day,Start_Time,End_Time,Activity,IDS_Team_Status,EM_Op_Status,MD_Op_and_Drone_Status
+Monday,06:50,07:10,Drive to field,,,
+Monday,07:10,07:30,Setup Polygons 1-2,,,
+Monday,07:30,08:30,Session 1 (Polygons 1-2),Op A + B (Ends 08:30),Op C (Ends 08:10),Op D (Ends 08:00) | Drone 1 (08:00-08:30)
+Monday,08:30,08:50,Pack equipment,,,
+Monday,08:50,09:00,Drive to Denim Coffee,,,
+Monday,09:00,10:00,Weekly Team Meeting,,,
+Monday,10:00,10:10,Drive to field,,,
+Monday,10:10,10:30,Setup Polygons 3-4,,,
+Monday,10:30,11:30,Session 2 (Polygons 3-4),Op C + D (Ends 11:30),Op A (Ends 11:10),Op B (Ends 11:00)
+Monday,11:30,11:50,Setup Polygons 5-6,,,
+Monday,11:50,12:50,Session 3 (Polygons 5-6),Op A + B (Ends 12:50),Op D (Ends 12:30),Op C (Ends 12:20)
+Monday,12:50,13:50,Full Lunch Break,,,
+Monday,13:50,14:10,Setup Polygons 7-8,,,
+Monday,14:10,15:10,Session 4 (Polygons 7-8),Op C + D (Ends 15:10),Op B (Ends 14:50),Op A (Ends 14:40) | Drone 2 (14:40-15:10)
+Monday,15:10,15:40,Rest Break,,,
+Monday,15:40,16:00,Setup Polygon 9,,,
+Monday,16:00,16:30,Session 5 (Polygon 9),Op A (Ends 16:30),Op C (Ends 16:20),Op D (Ends 16:15)
+Monday,16:30,16:50,Final pack-up,,,
+Monday,16:50,17:10,Return Drive,,,
+Tuesday,07:30,08:30,Project Manager Meeting,Drive to site: 20 min,,
+Tuesday,07:50,08:10,Setup Polygons 1-2,,,
+Tuesday,08:10,09:10,Session 1 (Polygons 1-2),Op A + B (Ends 09:10),Op C (Ends 08:50),Op D (Ends 08:40) | Drone 1 (08:40-09:10)
+Tuesday,09:10,09:30,Setup Polygons 3-4,,,
+Tuesday,09:30,10:30,Session 2 (Polygons 3-4),Op C + D (Ends 10:30),Op A (Ends 10:10),Op B (Ends 10:00)
+Tuesday,10:30,11:00,Morning Break,,,
+Tuesday,11:00,11:20,Setup Polygons 5-6,,,
+Tuesday,11:20,12:20,Session 3 (Polygons 5-6),Op A + B (Ends 12:20),Op D (Ends 12:00),Op C (Ends 11:50)
+Tuesday,12:20,13:20,Full Lunch Break,,,
+Tuesday,13:20,13:40,Setup Polygons 7-8,,,
+Tuesday,13:40,14:40,Session 4 (Polygons 7-8),Op C + D (Ends 14:40),Op B (Ends 14:20),Op A (Ends 14:10) | Drone 2 (14:10-14:40)
+Tuesday,14:40,15:00,Setup Polygons 9-10,,,
+Tuesday,15:00,16:00,Session 5 (Polygons 9-10),Op A + B (Ends 16:00),Op C (Ends 15:40),Op D (Ends 15:30)
+Tuesday,16:00,16:20,Final pack-up,,,
+Tuesday,16:20,16:40,Return Drive,,,
+Wednesday,12:30,12:50,Drive to Southern Sector,,,
+Wednesday,12:50,13:10,Setup Polygons 1-3,,,
+Wednesday,13:10,14:10,Session 1 (Polygons 1-3),Op C + D Rest | Drone 1 (13:40-14:10),Op A (Ends 14:10),Op B (Ends 13:55)
+Wednesday,14:10,14:30,Setup Polygons 4-5,,,
+Wednesday,14:30,15:10,Session 2 (Polygons 4-5),Op A + B Rest,Op C (Ends 15:10),Op D (Ends 15:00)
+Wednesday,15:10,15:30,Setup Polygons 6-7 (North),,,
+Wednesday,15:30,16:10,Session 3 (Polygons 6-7),Op C + D Rest,Op A (Ends 16:10),Op B (Ends 16:00)
+Wednesday,16:10,16:30,Setup Polygons 8-9,,,
+Wednesday,16:30,17:10,Session 4 (Polygons 8-9),Op A + B Rest,Op C (Ends 17:10),Op D (Ends 17:00)
+Wednesday,17:10,17:30,Setup Polygons 10-11,,,
+Wednesday,17:30,18:10,Session 5 (Polygons 10-11),Op C + D Rest | Drone 2 (17:40-18:10),Op A (Ends 18:10),Op B (Ends 18:00)
+Wednesday,18:10,18:30,Setup Polygon 12,,,
+Wednesday,18:30,18:50,Session 6 (Polygon 12),Op A + B Rest,Op C (Ends 18:50),Op D (Ends 18:45)
+Wednesday,18:50,19:10,Final pack-up,,,
+Wednesday,19:10,19:30,Return Drive,,,
+Thursday,07:30,08:30,Project Manager Meeting,Drive to site: 20 min,,
+Thursday,07:50,08:10,Setup Polygons 1-2,,,
+Thursday,08:10,09:10,Session 1 (Polygons 1-2),Op A + B (Ends 09:10),Op C (Ends 08:50),Op D (Ends 08:40) | Drone 1 (08:40-09:10)
+Thursday,09:10,09:30,Setup Polygons 3-4,,,
+Thursday,09:30,10:30,Session 2 (Polygons 3-4),Op C + D (Ends 10:30),Op A (Ends 10:10),Op B (Ends 10:00)
+Thursday,10:30,11:00,Morning Break,,,
+Thursday,11:00,11:20,Setup Polygons 5-6,,,
+Thursday,11:20,12:20,Session 3 (Polygons 5-6),Op A + B (Ends 12:20),Op D (Ends 12:00),Op C (Ends 11:50)
+Thursday,12:20,13:20,Full Lunch Break,,,
+Thursday,13:20,13:40,Setup Polygons 7-8,,,
+Thursday,13:40,14:40,Session 4 (Polygons 7-8),Op C + D (Ends 14:40),Op B (Ends 14:20),Op A (Ends 14:10) | Drone 2 (14:10-14:40)
+Thursday,14:40,15:00,Setup Polygons 9-10,,,
+Thursday,15:00,16:00,Session 5 (Polygons 9-10),Op A + B (Ends 16:00),Op C (Ends 15:40),Op D (Ends 15:30)
+Thursday,16:00,16:20,Setup Polygon 11,,,
+Thursday,16:20,16:50,Session 6 (Polygon 11),Op C (Ends 16:50),Op A (Ends 16:40),Op B (Ends 16:35)
+Thursday,16:50,17:10,Final pack-up,,,
+Thursday,17:10,17:30,Return Drive,,,
+Friday,08:30,08:50,Drive to field,,,
+Friday,08:50,09:10,Setup Polygons 1-2,,,
+Friday,09:10,10:10,Session 1 (Polygons 1-2),Op A + B (Ends 10:10),Op C (Ends 09:50),Op D (Ends 09:40) | Drone 1 (09:40-10:10)
+Friday,10:10,10:30,Setup Polygons 3-4,,,
+Friday,10:30,11:30,Session 2 (Polygons 3-4),Op C + D (Ends 11:30),Op A (Ends 11:10),Op B (Ends 11:00)
+Friday,11:30,11:50,Setup Polygons 5-6,,,
+Friday,11:50,12:50,Session 3 (Polygons 5-6),Op A + B (Ends 12:50),Op D (Ends 12:30),Op C (Ends 12:20)
+Friday,12:50,13:50,Full Lunch Break,,,
+Friday,13:50,14:10,Setup Polygons 7-8,,,
+Friday,14:10,15:10,Session 4 (Polygons 7-8),Op C + D (Ends 15:10),Op B (Ends 14:50),Op A (Ends 14:40) | Drone 2 (14:40-15:10)
+Friday,15:10,15:40,Afternoon Break,,,
+Friday,15:40,16:00,Setup Polygons 9-10,,,
+Friday,16:00,17:00,Session 5 (Polygons 9-10),Op A + B (Ends 17:00),Op C (Ends 16:40),Op D (Ends 16:30)
+Friday,17:00,17:20,Final pack-up,,,
+Friday,17:20,17:40,Return Drive,,,

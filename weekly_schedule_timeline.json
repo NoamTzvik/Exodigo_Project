@@ -1,0 +1,52 @@
+{
+  "project_name": "Pittsburgh Infrastructure Mapping",
+  "location": {
+    "lat": 40.244793,
+    "lon": -77.171278,
+    "commute_time_min": 20
+  },
+  "constraints": {
+    "polygon_size_max": "35x40m",
+    "overlap_m": 2,
+    "max_transmitters": 15
+  },
+  "schedule": [
+    {
+      "day": "Monday",
+      "events": [
+        { "time": "08:30", "activity": "Travel from AB&B" },
+        { "time": "09:00", "activity": "Weekly Team Meeting", "mandatory": true },
+        { "time": "10:30", "activity": "Grid Initialization & Day 1 Scan" }
+      ]
+    },
+    {
+      "day": "Tuesday",
+      "events": [
+        { "time": "07:30", "activity": "Morning Briefing", "mandatory": true },
+        { "time": "08:30", "activity": "Day 2 Scan - Incline Polygons" }
+      ]
+    },
+    {
+      "day": "Wednesday",
+      "events": [
+        { "time": "08:00", "activity": "Snow Delay", "status": "On-Hold" },
+        { "time": "13:00", "activity": "Day 3 Scan - Resumed after Snow", "sensors": ["IDS", "EM", "MD"] }
+      ]
+    },
+    {
+      "day": "Thursday",
+      "events": [
+        { "time": "07:30", "activity": "Morning Briefing", "mandatory": true },
+        { "time": "08:30", "activity": "Day 4 Scan - Cul-de-sac Area" }
+      ]
+    },
+    {
+      "day": "Friday",
+      "events": [
+        { "time": "08:30", "activity": "Day 5 Scan - Final Polygons" },
+        { "time": "14:00", "activity": "Key Point Verification & Audit" },
+        { "time": "16:30", "activity": "Project Departure" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Exodigo Mission Control - Pittsburgh</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="mission-control-theme">
+    <header class="top-nav">
+        <div class="brand" style="display: flex; align-items: center; gap: 20px;">
+            <div class="exodigo-logo"></div>
+            <div class="brand-text" style="padding-right: 20px; border-right: 1px solid var(--border-light); display: flex; flex-direction: column; gap: 2px;">
+                <span class="main-title" style="letter-spacing: 0.1em; font-size: 14px; color: var(--text-primary); text-transform: uppercase;"><strong>My Project</strong></span>
+                <span class="pm-title" style="font-size: 10px; color: var(--accent-primary); letter-spacing: 0.05em; font-weight: 600; opacity: 0.9; display: flex; align-items: center; gap: 4px;">
+                    <span style="opacity: 0.6; font-weight: 400;">PM:</span> Noam Tzvik
+                </span>
+            </div>
+        </div>
+
+        <div class="nav-filters">
+            <div class="filter-group">
+                <span class="filter-label">TEMPORAL FILTER</span>
+                <div class="btn-group" id="day-filters">
+                    <button class="filter-btn active" data-day="all">ALL</button>
+                    <button class="filter-btn" data-day="1">1</button>
+                    <button class="filter-btn" data-day="2">2</button>
+                    <button class="filter-btn" data-day="3">3</button>
+                    <button class="filter-btn" data-day="4">4</button>
+                    <button class="filter-btn" data-day="5">5</button>
+                    <button class="filter-btn" data-day="prescan">KEY POINTS</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-actions">
+            <!-- Inventory Button placed stylishly in the top nav -->
+            <button class="action-btn inventory-btn"
+                style="background: #ffffff; color: #1a1a1a; border: 1px solid var(--border-light); padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;">
+                <span class="icon" style="font-size: 14px;">📦</span> EQUIPMENT INVENTORY
+            </button>
+            <button id="save-mission-btn" class="action-btn success-btn">
+                <span class="icon">💾</span> SAVE MISSION
+            </button>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <aside class="protocol-sidebar" style="padding-top: 24px;">
+
+
+            <div id="schedule-section" class="protocol-section"
+                style="height: 100%; display: flex; flex-direction: column;">
+                <h3 class="section-title" id="schedule-title" style="margin-bottom: 16px;">WEEKLY PROTOCOL</h3>
+
+                <div class="timeline" id="protocol-timeline" style="flex: 1; overflow-y: auto; padding-right: 10px;">
+                    <div class="day-outline condensed-view" data-day="all">
+                        <h4 style="margin-bottom: 24px;">WEEKLY OVERVIEW</h4>
+                        
+                        <div class="event-item priority-ids" style="cursor: pointer; border-left-color: #00f0ff;" onclick="document.querySelector('.filter-btn[data-day=\'1\']').click()">
+                            <span class="time" style="font-weight: bold;">DAY 1 (MONDAY)</span>
+                            <span class="event-title" style="font-weight: normal;">Staff Meeting + North Part Scan</span>
+                            <span class="event-note">Staff meeting + scanning north part of site (mapping main utilities)</span>
+                        </div>
+                        
+                        <div class="event-item" style="cursor: pointer; border-left-color: #2a2a2a;" onclick="document.querySelector('.filter-btn[data-day=\'2\']').click()">
+                            <span class="time" style="font-weight: bold;">DAY 2 (TUESDAY)</span>
+                            <span class="event-title" style="font-weight: normal;">PM Meeting + SW Part Mapping</span>
+                            <span class="event-note">PM meeting + mapping main utilities in southwest part of site</span>
+                        </div>
+
+                        <div class="event-item warning" style="cursor: pointer; border-left-color: #8b4513;" onclick="document.querySelector('.filter-btn[data-day=\'3\']').click()">
+                            <span class="time" style="font-weight: bold;">DAY 3 (WEDNESDAY)</span>
+                            <span class="event-title" style="font-weight: normal;">Flat Areas Scan (Dual Sector)</span>
+                            <span class="event-note">Scanning flat areas due to weather, split into South & North sectors</span>
+                        </div>
+
+                        <div class="event-item" style="cursor: pointer; border-left-color: #ff9d00;" onclick="document.querySelector('.filter-btn[data-day=\'4\']').click()">
+                            <span class="time" style="font-weight: bold;">DAY 4 (THURSDAY)</span>
+                            <span class="event-title" style="font-weight: normal;">PM Meeting + South & Central Scan</span>
+                            <span class="event-note">PM meeting + scanning south and central part of the site</span>
+                        </div>
+
+                        <div class="event-item success" style="cursor: pointer; border-left-color: #ffffff;" onclick="document.querySelector('.filter-btn[data-day=\'5\']').click()">
+                            <span class="time" style="font-weight: bold;">DAY 5 (FRIDAY)</span>
+                            <span class="event-title" style="font-weight: normal;">Central Area Scan</span>
+                            <span class="event-note">Scanning central area of site and project closeout</span>
+                        </div>
+
+                        <div class="event-item" style="cursor: pointer; border-left-color: #ffff00;" onclick="document.querySelector('.filter-btn[data-day=\'prescan\']').click()">
+                            <span class="time" style="font-weight: bold;">PRE-SCAN (KEY POINTS)</span>
+                            <span class="event-title" style="font-weight: normal;">Strategic Sync Points</span>
+                            <span class="event-note">Key points for pre-scan calibration</span>
+                        </div>
+                    </div>
+
+                    <div class="day-outline" data-day="1" style="display: none;">
+                        <h4 style="cursor: pointer;" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()">MONDAY (DAY 1) (06:50 - 17:35)</h4>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">06:50 - 07:10</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Drive to work site (20 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">07:10 - 07:30</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 1-2 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">07:30 - 08:30</span>
+                            <span class="event-title">Session 1 (Polygons 1-2)</span>
+                            <span class="event-note">IDS: A (done 08:30) | EM: C (done 08:10) | MD: D (done 08:00) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">08:30 - 09:00</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Morning refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">09:00 - 09:20</span>
+                            <span class="event-title">Pack Up</span>
+                            <span class="event-note">Secure equipment before meeting (20 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">09:20 - 09:30</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Drive to Denim Coffee (10 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #8c52ff;">
+                            <span class="time">09:30 - 10:30</span>
+                            <span class="event-title">Team Meeting</span>
+                            <span class="event-note">Staff meeting + mapping north site (60 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">10:30 - 10:40</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Drive back to site (10 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">10:40 - 11:00</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 3-4 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">11:00 - 12:00</span>
+                            <span class="event-title">Session 2 (Polygons 3-4)</span>
+                            <span class="event-note">IDS: B (done 12:00) | EM: D (done 11:40) | MD: C (done 11:30) | Rest: A (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">12:00 - 13:00</span>
+                            <span class="event-title">Lunch</span>
+                            <span class="event-note">Lunch break (60 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">13:00 - 13:15</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 5-6 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">13:15 - 14:15</span>
+                            <span class="event-title">Session 3 (Polygons 5-6)</span>
+                            <span class="event-note">IDS: C (done 14:15) | EM: A (done 13:55) | MD: B (done 13:45) | Rest: D (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">14:15 - 14:45</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Afternoon refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">14:45 - 15:00</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 7-8 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">15:00 - 16:00</span>
+                            <span class="event-title">Session 4 (Polygons 7-8)</span>
+                            <span class="event-note">IDS: D (done 16:00) | EM: B (done 15:40) | MD: A (done 15:30) | Rest: C (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">16:00 - 16:15</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygon 9 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">16:15 - 17:15</span>
+                            <span class="event-title">Session 5 (Polygon 9)</span>
+                            <span class="event-note">IDS: A (done 17:15) | EM: C (done 17:05) | MD: D (done 17:00) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item success" style="border-left-color: #ff9d00;">
+                            <span class="time">17:15 - 17:35</span>
+                            <span class="event-title">Return</span>
+                            <span class="event-note">Drive back (20 min)</span>
+                        </div>
+                    </div>
+                    <div class="day-outline" data-day="2" style="display: none;">
+                        <h4 style="cursor: pointer;" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()">TUESDAY (DAY 2) (08:20 - 18:05)</h4>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">08:20 - 08:40</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Drive to site (20 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">08:40 - 09:00</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 1-2 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">09:00 - 10:00</span>
+                            <span class="event-title">Session 1 (Polygons 1-2)</span>
+                            <span class="event-note">IDS: A (done 10:00) | EM: C (done 09:40) | MD: D (done 09:30) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">10:00 - 10:30</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Morning refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">10:30 - 10:45</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 3-4 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">10:45 - 11:45</span>
+                            <span class="event-title">Session 2 (Polygons 3-4)</span>
+                            <span class="event-note">IDS: B (done 11:45) | EM: D (done 11:25) | MD: C (done 11:15) | Rest: A (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">11:45 - 12:45</span>
+                            <span class="event-title">Lunch</span>
+                            <span class="event-note">Lunch break (60 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">12:45 - 13:00</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 5-6 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">13:00 - 14:00</span>
+                            <span class="event-title">Session 3 (Polygons 5-6)</span>
+                            <span class="event-note">IDS: C (done 14:00) | EM: A (done 13:40) | MD: B (done 13:30) | Rest: D (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">14:00 - 14:30</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Afternoon refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">14:30 - 14:45</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 7-8 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">14:45 - 15:45</span>
+                            <span class="event-title">Session 4 (Polygons 7-8)</span>
+                            <span class="event-note">IDS: D (done 15:45) | EM: B (done 15:25) | MD: A (done 15:15) | Rest: C (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">15:45 - 16:00</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 9-10 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">16:00 - 17:45</span>
+                            <span class="event-title">Session 5 (Polygons 9-10)</span>
+                            <span class="event-note">IDS: A (done 17:45) | EM: C (done 17:25) | MD: D (done 17:15) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item success" style="border-left-color: #ff9d00;">
+                            <span class="time">17:45 - 18:05</span>
+                            <span class="event-title">Return</span>
+                            <span class="event-note">Drive back (20 min)</span>
+                        </div>
+                    </div>
+                    <div class="day-outline" data-day="3" style="display: none;">
+                        <h4 style="cursor: pointer;" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()">WEDNESDAY (DAY 3) (12:10 - 20:00)</h4>
+                        <h5 style="margin: 20px 0 10px 0; color: var(--accent-primary); font-size: 14px; border-bottom: 1px solid var(--border-light); padding-bottom: 5px;">SOUTH SECTOR</h5>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">12:10 - 12:30</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Departure 12:10 (20 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">12:30 - 12:50</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 1-3 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">12:50 - 13:50</span>
+                            <span class="event-title">Session 1 (Polygons 1-3)</span>
+                            <span class="event-note">EM: A (done 13:50) | MD: B (done 13:35) | Rest: C & D</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">13:50 - 14:05</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 4-5 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">14:05 - 15:05</span>
+                            <span class="event-title">Session 2 (Polygons 4-5)</span>
+                            <span class="event-note">EM: C (done 14:45) | MD: D (done 14:35) | Rest: A & B</span>
+                        </div>
+                        <h5 style="margin: 30px 0 10px 0; color: var(--accent-primary); font-size: 14px; border-bottom: 1px solid var(--border-light); padding-bottom: 5px;">NORTH SECTOR</h5>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">15:05 - 15:25</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 6-7 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">15:25 - 16:25</span>
+                            <span class="event-title">Session 3 (Polygons 6-7)</span>
+                            <span class="event-note">EM: B (done 16:05) | MD: A (done 15:55) | Rest: C & D</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">16:25 - 16:40</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 8-9 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">16:40 - 17:40</span>
+                            <span class="event-title">Session 4 (Polygons 8-9)</span>
+                            <span class="event-note">EM: D (done 17:20) | MD: C (done 17:10) | Rest: A & B</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">17:40 - 17:55</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 10-11 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">17:55 - 18:55</span>
+                            <span class="event-title">Session 5 (Polygons 10-11)</span>
+                            <span class="event-note">EM: A (done 18:35) | MD: B (done 18:25) | Rest: C & D</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">18:55 - 19:10</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygon 12 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">19:10 - 19:40</span>
+                            <span class="event-title">Session 6 (Polygon 12)</span>
+                            <span class="event-note">EM: C (done 19:30) | MD: D (done 19:25) | Rest: A & B</span>
+                        </div>
+                        <div class="event-item success" style="border-left-color: #ff9d00;">
+                            <span class="time">19:40 - 20:00</span>
+                            <span class="event-title">Return</span>
+                            <span class="event-note">Late drive back (20 min)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-outline" data-day="4" style="display: none;">
+                        <h4 style="cursor: pointer;" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()">THURSDAY (DAY 4) (08:30 - 17:25)</h4>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">08:30 - 08:50</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Drive to site (20 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">08:50 - 09:10</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 1-2 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">09:10 - 10:10</span>
+                            <span class="event-title">Session 1 (Polygons 1-2)</span>
+                            <span class="event-note">IDS: A (done 10:10) | EM: C (done 09:50) | MD: D (done 09:40) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00d4ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">09:40</span>
+                            <span class="event-title" style="font-size:11px;"><strong>D</strong> (MD) done &rarr; <strong>Drone #1</strong> &#9650; takes off</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00d4ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">10:10</span>
+                            <span class="event-title" style="font-size:11px;"><strong>Drone #1</strong> &#9660; lands &mdash; 20 min flight + 10 min setup</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00f0ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">10:10</span>
+                            <span class="event-title" style="font-size:11px;"><strong>A</strong> (IDS) done &mdash; Session 1 complete</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">10:10 - 10:40</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Morning refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">10:40 - 10:55</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 3-4 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">10:55 - 11:55</span>
+                            <span class="event-title">Session 2 (Polygons 3-4)</span>
+                            <span class="event-note">IDS: B (done 11:55) | EM: D (done 11:35) | MD: C (done 11:25) | Rest: A (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00f0ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">11:55</span>
+                            <span class="event-title" style="font-size:11px;"><strong>B</strong> (IDS) done &mdash; Session 2 complete</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">11:55 - 12:55</span>
+                            <span class="event-title">Lunch</span>
+                            <span class="event-note">Lunch break (60 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">12:55 - 13:10</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 5-6 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">13:10 - 14:10</span>
+                            <span class="event-title">Session 3 (Polygons 5-6)</span>
+                            <span class="event-note">IDS: C (done 14:10) | EM: A (done 13:50) | MD: B (done 13:40) | Rest: D (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">14:10 - 14:40</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Afternoon refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">14:40 - 14:55</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 7-8 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">14:55 - 15:55</span>
+                            <span class="event-title">Session 4 (Polygons 7-8)</span>
+                            <span class="event-note">IDS: D (done 15:55) | EM: B (done 15:35) | MD: A (done 15:25) | Rest: C (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00f0ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">15:55</span>
+                            <span class="event-title" style="font-size:11px;"><strong>D</strong> (IDS) done &mdash; Session 4 complete</span>
+                        </div>
+                        <div class="event-item success" style="border-left-color: #ff9d00;">
+                            <span class="time">15:55 - 17:05</span>
+                            <span class="event-title">Return</span>
+                            <span class="event-note">Drive back (20 min)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-outline" data-day="5" style="display: none;">
+                        <h4 style="cursor: pointer;" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()">FRIDAY (DAY 5) (08:30 - 18:00)</h4>
+                        <div class="event-item" style="border-left-color: #ff9d00;">
+                            <span class="time">08:30 - 08:50</span>
+                            <span class="event-title">Drive</span>
+                            <span class="event-note">Drive to site (20 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">08:50 - 09:10</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 1-2 (20 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">09:10 - 10:10</span>
+                            <span class="event-title">Session 1 (Polygons 1-2)</span>
+                            <span class="event-note">IDS: A (done 10:10) | EM: C (done 09:50) | MD: D (done 09:40) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">10:10 - 10:40</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Morning refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">10:40 - 10:55</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 3-4 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">10:55 - 11:55</span>
+                            <span class="event-title">Session 2 (Polygons 3-4)</span>
+                            <span class="event-note">IDS: B (done 11:55) | EM: D (done 11:35) | MD: C (done 11:25) | Rest: A (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">11:55 - 12:55</span>
+                            <span class="event-title">Lunch</span>
+                            <span class="event-note">Lunch break (60 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00d4ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">13:30</span>
+                            <span class="event-title" style="font-size:11px;"><strong>B</strong> (MD) done &rarr; <strong>Drone #2</strong> &#9650; takes off</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00d4ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">14:00</span>
+                            <span class="event-title" style="font-size:11px;"><strong>Drone #2</strong> &#9660; lands &mdash; 20 min flight + 10 min setup</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00f0ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">14:00</span>
+                            <span class="event-title" style="font-size:11px;"><strong>C</strong> (IDS) done &mdash; Session 3 complete</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">12:55 - 13:10</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 5-6 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">13:10 - 14:10</span>
+                            <span class="event-title">Session 3 (Polygons 5-6)</span>
+                            <span class="event-note">IDS: C (done 14:10) | EM: A (done 13:50) | MD: B (done 13:40) | Rest: D (resting)</span>
+                        </div>
+                        <div class="event-item success">
+                            <span class="time">14:10 - 14:40</span>
+                            <span class="event-title">Break</span>
+                            <span class="event-note">Afternoon refresh (30 min)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">14:40 - 14:55</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygons 7-8 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">14:55 - 15:55</span>
+                            <span class="event-title">Session 4 (Polygons 7-8)</span>
+                            <span class="event-note">IDS: D (done 15:55) | EM: B (done 15:35) | MD: A (done 15:25) | Rest: C (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00f0ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">15:55</span>
+                            <span class="event-title" style="font-size:11px;"><strong>D</strong> (IDS) done &mdash; Session 4 complete</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #a0a0a0;">
+                            <span class="time">15:55 - 16:10</span>
+                            <span class="event-title">Setup</span>
+                            <span class="event-note">Deploy gear for polygon 9 (15 min)</span>
+                        </div>
+                        <div class="event-item priority-ids">
+                            <span class="time">16:10 - 17:40</span>
+                            <span class="event-title">Session 5 (Polygon 9)</span>
+                            <span class="event-note">IDS: A (done 17:40) | EM: C (done 17:20) | MD: D (done 17:15) | Rest: B (resting)</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #00f0ff; padding: 4px 12px 4px 22px; margin-left: 10px;">
+                            <span class="time" style="font-size:11px;opacity:0.8;">17:40</span>
+                            <span class="event-title" style="font-size:11px;"><strong>A</strong> (IDS) done &mdash; Session 5 complete</span>
+                        </div>
+                        <div class="event-item success" style="border-left-color: #ff9d00;">
+                            <span class="time">17:40 - 18:00</span>
+                            <span class="event-title">Return</span>
+                            <span class="event-note">Drive back (20 min)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-outline" data-day="prescan" style="display: none;">
+                        <h4 style="cursor: pointer;" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()">PRE-SCAN ANALYSIS (KEY POINTS)</h4>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 1</span>
+                            <span class="event-title">1. נק׳ מפתח (תשתית מרכזית)</span>
+                            <span class="event-note">Initial synchronization point.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 2</span>
+                            <span class="event-title">2. נק׳ מפתח (שינויי גבהים)</span>
+                            <span class="event-note">Calibration for elevation changes.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 3</span>
+                            <span class="event-title">3. נק׳ מפתח</span>
+                            <span class="event-note">Secondary sync point.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 4</span>
+                            <span class="event-title">4. נק׳ מפתח</span>
+                            <span class="event-note">Field observation point.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 5</span>
+                            <span class="event-title">5. נק׳ מפתח</span>
+                            <span class="event-note">Field observation point.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 6</span>
+                            <span class="event-title">6. נק׳ מפתח</span>
+                            <span class="event-note">Field observation point.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 7</span>
+                            <span class="event-title">7. נק׳ מפתח (ריכוז תשתיות מים)</span>
+                            <span class="event-note">Water infrastructure hub.</span>
+                        </div>
+                        <div class="event-item" style="border-left-color: #ffff00;">
+                            <span class="time">POINT 8</span>
+                            <span class="event-title">נקי מפתח</span>
+                            <span class="event-note">Primary access point node.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="map-viewport">
+            <div id="map"></div>
+
+            <div class="map-overlay top-left">
+                <div class="intel-panel">
+                    <button id="topo-toggle-btn" class="action-btn topo-btn">
+                        <span class="icon">⛰️</span> ELEVATION MAP
+                    </button>
+                    <div id="topo-legend" class="topo-legend" style="display: none;">
+                        <span class="legend-title">ALTITUDE SCALE</span>
+                        <div class="legend-scale">
+                            <div class="scale-item"><span class="color red"></span> High (Ridge)</div>
+                            <div class="scale-item"><span class="color yellow"></span> Medium</div>
+                            <div class="scale-item"><span class="color green"></span> Low (Flat)</div>
+                            <div class="scale-item"><span class="color blue"></span> Stream / Basin</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-overlay top-right">
+                <div class="distribution-card">
+                    <span class="card-title">WEEKLY DISTRIBUTION</span>
+                    <div class="legend-list">
+                        <div class="legend-row"><span class="dot d1" style="background: #00f0ff;"></span> Day 1 (Blue)
+                        </div>
+                        <div class="legend-row"><span class="dot d2" style="background: #2a2a2a;"></span> Day 2 (Black)
+                        </div>
+                        <div class="legend-row"><span class="dot d3" style="background: #8b4513;"></span> Day 3 (Brown)
+                        </div>
+                        <div class="legend-row"><span class="dot d4" style="background: #ff9d00;"></span> Day 4 (Orange)
+                        </div>
+                        <div class="legend-row"><span class="dot d5" style="background: #ffffff;"></span> Day 5 (White)
+                        </div>
+                        <div class="legend-row"><span class="dot dk" style="background: #ffff00;"></span> Key Points
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-controls bottom-center">
+                <div class="mission-planner">
+                    <div class="planner-group">
+                        <span class="panel-label">SHAPE TYPE</span>
+                        <div class="shape-toggle">
+                            <button id="shape-sector" class="shape-btn active"
+                                title="Scanning Sector">rectangle</button>
+                            <button id="shape-circle" class="shape-btn" title="Single Transmitter (1m)">●</button>
+                            <button id="shape-array" class="shape-btn"
+                                title="EM Transmitter Array (15 units, 4m spacing)">📡</button>
+                            <button id="shape-barrier" class="shape-btn" title="Barrier / Blockade">■</button>
+                        </div>
+                    </div>
+
+                    <button id="add-mode-btn" class="planner-btn">
+                        <span class="icon">➕</span> ADD OBJECT
+                    </button>
+
+                    <div id="editor-panel" class="control-panel" style="display: none;">
+                        <input type="text" id="poly-name-input" class="editor-input" placeholder="Sector Name">
+
+                        <div class="sub-panel">
+                            <span class="panel-label">COLOR</span>
+                            <div class="color-options" id="color-picker">
+                                <div class="color-swatch active" data-color="#00f0ff" style="background: #00f0ff;">
+                                </div>
+                                <div class="color-swatch" data-color="#00d166" style="background: #00d166;"></div>
+                                <div class="color-swatch" data-color="#ff9d00" style="background: #ff9d00;"></div>
+                                <div class="color-swatch" data-color="#ff3e3e" style="background: #ff3e3e;"></div>
+                                <div class="color-swatch" data-color="#8c52ff" style="background: #8c52ff;"></div>
+                                <div class="color-swatch" data-color="#ffff00" style="background: #ffff00;"></div>
+                                <div class="color-swatch" data-color="#ff00ff" style="background: #ff00ff;"></div>
+                                <div class="color-swatch" data-color="#ffffff" style="background: #ffffff;"></div>
+                                <div class="color-swatch" data-color="#2a2a2a" style="background: #2a2a2a;"></div>
+                                <div class="color-swatch" data-color="#8b4513" style="background: #8b4513;"></div>
+                            </div>
+                        </div>
+
+                        <div class="sub-panel">
+                            <span class="panel-label">ANGLE</span>
+                            <input type="range" id="rotation-slider" min="0" max="360" value="0">
+                            <span id="angle-value">0°</span>
+                        </div>
+
+                        <button id="delete-group-btn" class="planner-btn danger" style="display: none;">
+                            <span class="icon">🗑️</span> DELETE ARRAY
+                        </button>
+                        <button id="delete-poly-btn" class="planner-btn danger">
+                            <span class="icon">🗑️</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="poly-stats" class="stats-pill">
+                    <strong>1</strong> SECTORS PLANNED
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Inventory Modal -->
+    <div id="inventory-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📋</span> EQUIPMENT INVENTORY</h2>
+                <button id="close-inventory-btn" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="inv-section">
+                    <h3>Scanning & Drone</h3>
+                    <ul>
+                        <li>Full IDS System (incl. harness/cables)</li>
+                        <li>Full EM System (incl. poles/harness)</li>
+                        <li>Full MD System (incl. plate)</li>
+                        <li>15x Transmitters & Tripods/Stakes</li>
+                        <li>Scanner Batteries (3+ sets/device)</li>
+                        <li>Drone, Remote & Spare Props</li>
+                        <li>4-6x Drone Batteries</li>
+                        <li>Landing Pad</li>
+                        <li>2x Memory Cards</li>
+                    </ul>
+                </div>
+                <div class="inv-section">
+                    <h3>Computing & Power</h3>
+                    <ul>
+                        <li>Field Laptop</li>
+                        <li>Card Reader & Data Cables</li>
+                        <li>Multi-Device Chargers</li>
+                    </ul>
+                </div>
+                <div class="inv-section">
+                    <h3>Logistics & Personnel (4 People)</h3>
+                    <ul>
+                        <li>Folding Field Table</li>
+                        <li>Roadblock Gear (Cones/Triangles)</li>
+                        <li>Marking Tools (Spray/Flags)</li>
+                        <li>4x High-Vis Vests</li>
+                        <li>Winter Gear (Cold/Snow adapted)</li>
+                        <li>Power Banks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

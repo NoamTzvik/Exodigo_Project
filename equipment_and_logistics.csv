@@ -1,0 +1,11 @@
+Category,Item Name,Quantity,Notes
+Scanning,IDS System,1,Highest priority but slowest. Requires heavy handling.
+Scanning,EM System,1,Multi-frequency EM sensor.
+Logistics,EM Transmitters,15,Max available. 30-60m from polygon; 4m spacing.
+Scanning,MD Sensor,1,Lowest priority; fastest scan.
+Utility,Safety Cones,20,For road closures and polygon marking.
+Utility,Drone,1,For aerial photography and progress monitoring.
+Safety,Extreme Cold Gear,4 sets,Required for Wednesday snow conditions.
+Safety,Anti-slip Boots,4 pairs,Essential for incline terrain.
+Logistics,Field Markers,50,For marking key points for the mapping team.
+Logistics,Vehicle,1,20-minute commute to Airbnb.
