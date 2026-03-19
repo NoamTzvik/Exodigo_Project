@@ -59,14 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const coordDisplay = L.control({ position: 'bottomleft' });
     coordDisplay.onAdd = function () {
         this._div = L.DomUtil.create('div', 'coord-box');
-        this._div.style.cssText = 'background:rgba(14,18,25,0.9);color:#00f0ff;padding:10px;font-family:monospace;border-radius:5px;border:1px solid #00f0ff;';
+        this._div.style.cssText = 'background:rgba(14,18,25,0.9);color:#00f0ff;padding:12px 18px;font-family:monospace;border-radius:8px;border:1px solid #00f0ff;font-size:12px;';
+        this._div.innerHTML = `LAT: ${centerPoint[0].toFixed(6)}<br>LNG: ${centerPoint[1].toFixed(6)}`;
         return this._div;
     };
     coordDisplay.addTo(map);
 
     map.on('mousemove', (e) => {
         const { lat, lng } = e.latlng;
-        coordDisplay._div.innerHTML = `LAT: ${lat.toFixed(6)}<br>LNG: ${lng.toFixed(6)}`;
+        // Simulating elevation for display
+        const elev = (130 + Math.sin(lat * 1000) * 5 + (lat - 40.24) * 2000).toFixed(1);
+        coordDisplay._div.innerHTML = `LAT: ${lat.toFixed(6)}<br>LNG: ${lng.toFixed(6)}<br>ELEV: ${elev} m`;
     });
 
     function createObject(lat, lng, angle = 0, color = '#00f0ff', name = '', type = 'sector', groupId = null, dayOverride = null) {
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rad = (angle * Math.PI) / 180;
         if (type === 'sector' || type === 'barrier') {
             const size = type === 'sector' ? {y:20, x:5.5} : {y:3, x:3};
-            const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.x}];
+            const corners = [{y:size.y, x:size.x}, {y:size.y, x:-size.x}, {y:-size.y, x:-size.x}, {y:-size.y, x:size.y}];
             const rotated = corners.map(c => [lat + (c.y*Math.sin(rad)+c.x*Math.cos(rad))*latPerMeter, lng + (c.y*Math.cos(rad)-c.x*Math.sin(rad))*lonPerMeter]);
             layer = L.polygon(rotated, { color: color, weight: 3, fillOpacity: type === 'sector' ? 0.2 : 0.6 });
         } else {
@@ -99,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return { layer, lat, lng, angle, color, name, type, day, groupId };
     }
 
-    // --- BAKED MISSION DATA (CURRENT SNAPSHOT) ---
     const BAKED_DATA = [
         {"lat": 40.2458, "lng": -77.17062402237207, "angle": 128, "color": "#8b4513", "name": "פוליגון 8", "type": "sector", "groupId": null, "day": 3},
         {"lat": 40.2464, "lng": -77.1709, "angle": 0, "color": "#8b4513", "name": "נקי מפתח", "type": "circle", "groupId": null, "day": 3},
@@ -162,12 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         updateStats();
     }
+
     function updateStats() {
-        const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, roadblock: 0, prescan: 0 };
-        polygons.forEach(p => {
-            const days = Array.isArray(p.day) ? p.day : [p.day];
-            days.forEach(d => { if (counts[d] !== undefined) counts[d]++; });
-        });
+        const statsPill = document.getElementById('poly-stats');
+        if (statsPill) statsPill.innerHTML = `<strong>${polygons.length}</strong> OBJECTS PLANNED`;
     }
 
     // --- TEMPORAL FILTERS ---
@@ -180,6 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
 
             // Sidebar Update
+            const scheduleTitle = document.querySelector('#schedule-section .section-title');
+            if (scheduleTitle) scheduleTitle.innerText = (daySelected === 'all') ? 'WEEKLY PROTOCOL' : 'DAILY SCHEDULE';
+
             document.querySelectorAll('#protocol-timeline .day-outline').forEach(outline => {
                 const outlineDay = outline.getAttribute('data-day');
                 outline.style.display = (outlineDay === daySelected) ? 'block' : 'none';
@@ -189,8 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             polygons.forEach(p => {
                 const pDays = Array.isArray(p.day) ? p.day.map(String) : [String(p.day)];
                 const show = (daySelected === 'all') || pDays.includes(daySelected);
-                if (show) p.layer.addTo(map);
-                else map.removeLayer(p.layer);
+                if (show) { if (!map.hasLayer(p.layer)) p.layer.addTo(map); }
+                else { if (map.hasLayer(p.layer)) map.removeLayer(p.layer); }
             });
         });
     });
