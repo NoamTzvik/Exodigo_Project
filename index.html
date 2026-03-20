@@ -155,7 +155,7 @@
          Key points for pre-scan calibration
         </span>
        </div>
-       <div class="event-item" onclick="document.querySelector('.filter-btn[data-day='roadblock']').click()" style="cursor: pointer; border-left-color: #ff3e3e;">
+       <div class="event-item" onclick="document.querySelector('.filter-btn[data-day=\'roadblock\']').click()" style="cursor: pointer; border-left-color: #ff3e3e;">
         <span class="time" style="font-weight: bold;">
          ROAD CLOSURES
         </span>
@@ -166,6 +166,31 @@
          Essential safety blockades for site operations
         </span>
        </div>
+      </div>
+      <div class="day-outline" data-day="roadblock" style="display: none;">
+        <h4 onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()" style="cursor: pointer;">
+          ACTIVE ROAD CLOSURES (5)
+        </h4>
+        <div class="event-item" style="border-left-color: #ff3e3e;">
+            <span class="time">RC-01</span>
+            <span class="event-title">South/North Junction</span>
+        </div>
+        <div class="event-item" style="border-left-color: #ff3e3e;">
+            <span class="time">RC-02</span>
+            <span class="event-title">East/West Connector</span>
+        </div>
+        <div class="event-item" style="border-left-color: #ff3e3e;">
+            <span class="time">RC-03</span>
+            <span class="event-title">White Day Perimeter</span>
+        </div>
+        <div class="event-item" style="border-left-color: #ff3e3e;">
+            <span class="time">RC-04</span>
+            <span class="event-title">West/East Segment</span>
+        </div>
+        <div class="event-item" style="border-left-color: #ff3e3e;">
+            <span class="time">RC-05</span>
+            <span class="event-title">NW/SE Diversion</span>
+        </div>
       </div>
       <div class="day-outline" data-day="1" style="display: none;">
        <h4 onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()" style="cursor: pointer;">
