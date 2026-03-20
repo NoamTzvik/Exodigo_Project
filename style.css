@@ -935,22 +935,28 @@ input[type="range"]::-webkit-slider-thumb:hover {
         z-index: 1;
     }
 
-    /* RIGHT FLOATING SIDEBAR (Weekly Distribution) */
+    /* RIGHT FLOATING SIDEBAR (Weekly Distribution) - HIDDEN BY DEFAULT */
     .protocol-sidebar {
         position: absolute !important;
         right: 0 !important;
         top: 80px !important; /* Below header */
-        width: 200px !important;
+        width: 250px !important;
         height: calc(100vh - 100px) !important;
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(15px) !important;
+        -webkit-backdrop-filter: blur(15px) !important;
         z-index: 1000;
-        border-left: 1px solid rgba(0,0,0,0.1) !important;
-        padding: 15px !important;
+        border-left: 2px solid var(--accent-primary) !important;
+        padding: 20px !important;
         overflow-y: auto !important;
-        box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.2) !important;
+        transform: translateX(100%); /* Start off-screen */
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+        display: block !important;
+    }
+
+    .protocol-sidebar.show-sidebar {
+        transform: translateX(0); /* Slide in */
     }
 
     .section-title {

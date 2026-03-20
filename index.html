@@ -2067,10 +2067,27 @@
 
   <!-- QUICK TOGGLES FOR MOBILE FIELD APP -->
   <div class="quick-toggles">
+      <button class="toggle-btn" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()" style="color: #00f0ff;">ALL</button>
       <button class="toggle-btn" onclick="document.querySelector('.filter-btn[data-day=\'prescan\']').click()" style="color: #d4af37; border-bottom: 3px solid #ffff00;">KP</button>
       <button class="toggle-btn" onclick="document.querySelector('.filter-btn[data-day=\'roadblock\']').click()" style="color: #ff3e3e; border-bottom: 3px solid #ff3e3e;">RC</button>
-      <button class="toggle-btn" onclick="document.querySelector('.filter-btn[data-day=\'all\']').click()" style="color: #00f0ff;">ALL</button>
+      <button class="toggle-btn" onclick="toggleSidebarMobile()" style="background: var(--accent-primary); color: white;">WD</button>
   </div>
+
+  <script>
+      function toggleSidebarMobile() {
+          const sidebar = document.querySelector('.protocol-sidebar');
+          sidebar.classList.toggle('show-sidebar');
+      }
+      
+      // Auto-close sidebar on day click in mobile
+      document.querySelectorAll('.event-item').forEach(item => {
+          item.addEventListener('click', () => {
+              if (window.innerWidth <= 768) {
+                  document.querySelector('.protocol-sidebar').classList.remove('show-sidebar');
+              }
+          });
+      });
+  </script>
   <!-- Inventory Modal -->
   <div class="modal-overlay" id="inventory-modal" style="display: none;">
    <div class="modal-content">
