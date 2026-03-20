@@ -969,6 +969,17 @@ input[type="range"]::-webkit-slider-thumb:hover {
         border-bottom: 1px solid #eeeeee;
     }
 
+    .filter-label {
+        display: block !important;
+        font-size: 10px !important;
+        color: #666666 !important;
+        text-transform: uppercase;
+        letter-spacing: 2px !important;
+        text-align: center !important;
+        margin-bottom: 4px !important;
+        font-weight: 800 !important;
+    }
+
     #day-filters {
         display: flex !important;
         flex-wrap: wrap !important;
