@@ -338,6 +338,8 @@ body {
 #map {
     width: 100%;
     height: 100%;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .map-overlay {
@@ -946,21 +948,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 
     /* DUAL-ROW FILTERS FOR FULL VISIBILITY */
-    .top-nav {
-        background: #ffffff !important; padding: 8px 10px !important; height: auto !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; display: block !important; border-bottom: 1px solid #eeeeee; padding-top: 15px !important; z-index: 9999 !important; }
-    #day-filters {
-        display: flex !important;
-        flex-wrap: wrap !important; /* Support two rows */
-        gap: 6px !important;
-        padding: 6px 0 !important;
-        justify-content: center !important;
-    }
-
+    .top-nav { background: #ffffff !important; padding: 10px 15px !important; height: auto !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; display: flex !important; align-items: center !important; justify-content: space-between !important; border-bottom: 1px solid #eeeeee; z-index: 9999 !important; }
+    .brand { display: flex !important; }
+    .nav-filters { margin-top: 0 !important; }
+    .filter-label { margin-bottom: 0 !important; margin-right: 12px !important; display: inline-block !important; font-size: 9px !important; }
+    #day-filters { display: flex !important; flex-wrap: nowrap !important; overflow-x: auto !important; gap: 4px !important; }
     .filter-btn {
         background: rgba(255, 255, 255, 0.1) !important;
         color: rgba(255, 255, 255, 0.8) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
         padding: 8px 12px !important;
         font-size: 11px !important;
         font-weight: 700 !important;
