@@ -908,139 +908,134 @@ input[type="range"]::-webkit-slider-thumb:hover {
     margin-top: 5px;
 }
 
-/* --- FIELD APP MOBILE OPTIMIZATION (v17) --- */
+/* --- MASTER MOBILE FIELD APP UX (v18) --- */
 @media screen and (max-width: 768px) {
     body {
-        overflow: hidden; /* Prevent body scroll, use container scroll */
+        overflow: hidden;
     }
 
     .main-layout {
-        flex-direction: column;
-        height: calc(100vh - 80px); /* Adjust for header */
-        overflow-y: auto;
-        padding-top: env(safe-area-inset-top);
-        background: #f4f6f9;
-        display: block; /* Stack flow */
+        position: relative;
+        height: 100vh;
+        width: 100vw;
+        display: block;
     }
 
-    .top-nav {
-        padding: 5px 12px !important;
-        height: auto !important;
-        display: flex;
-        flex-direction: column;
-        border-bottom: 2px solid var(--accent-primary);
-        background: #ffffff !important;
-    }
-
-    .brand {
-        justify-content: space-between;
-        width: 100%;
-        padding: 4px 0;
-    }
-
-    .brand-text {
-        border-right: none !important;
-        padding-right: 0 !important;
-        align-items: flex-end !important;
-    }
-
-    .main-title {
-        font-size: 11px !important;
-    }
-    
-    .pm-title {
-        font-size: 8px !important;
-    }
-
-    .nav-filters {
-        width: 100%;
-        margin-top: 5px;
-    }
-
-    .filter-group {
-        width: 100%;
-    }
-
-    .filter-label {
-        display: none; /* Auto-explain by UI */
-    }
-
-    #day-filters {
-        display: flex;
-        overflow-x: auto;
-        gap: 8px;
-        padding: 8px 0 !important;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .filter-btn {
-        flex: 0 0 auto;
-        scroll-snap-align: start;
-        padding: 10px 16px !important;
-        font-size: 11px !important;
-        border-radius: 20px !important;
-        background: #f0f2f5 !important;
-        border: 1px solid rgba(0,0,0,0.05) !important;
-        font-weight: 700 !important;
-    }
-
-    .filter-btn.active {
-        background: var(--accent-primary) !important;
-        color: white !important;
-    }
-
+    /* MAP IS CENTERED BACKGROUND */
     #map {
-        width: 100% !important;
-        height: 38vh !important; /* Critical for field view */
-        position: sticky;
+        position: absolute !important;
         top: 0;
-        z-index: 50;
-        border-bottom: 2px solid var(--border-light);
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 1;
     }
 
+    /* RIGHT FLOATING SIDEBAR (Weekly Distribution) */
     .protocol-sidebar {
-        width: 100% !important;
-        height: auto !important;
+        position: absolute !important;
+        right: 0 !important;
+        top: 80px !important; /* Below header */
+        width: 200px !important;
+        height: calc(100vh - 100px) !important;
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        z-index: 1000;
+        border-left: 1px solid rgba(0,0,0,0.1) !important;
         padding: 15px !important;
-        margin-bottom: constant(safe-area-inset-bottom) !important;
-        margin-bottom: env(safe-area-inset-bottom) !important;
+        overflow-y: auto !important;
+        box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .section-title {
-        font-size: 13px !important;
-        color: var(--accent-primary) !important;
-        letter-spacing: 0.1em;
-        margin-top: 10px !important;
-        margin-bottom: 12px !important;
+        font-size: 11px !important;
+        text-align: right !important;
+        margin-bottom: 10px !important;
+        opacity: 0.6;
     }
 
+    .day-outline h4 {
+        font-size: 12px !important;
+        text-align: right !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* COMPACT SCHEDULE CARDS FOR FLOATING SIDEBAR */
     .event-item {
-        margin-bottom: 12px !important;
-        padding: 18px !important;
+        padding: 12px !important;
+        margin-bottom: 10px !important;
+        border-radius: 8px !important;
         background: white !important;
-        border-radius: 12px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
-        border-left-width: 5px !important;
+        border-left-width: 4px !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     }
 
     .event-item .time {
-        font-size: 13px !important;
-        color: var(--accent-primary) !important;
+        font-size: 10px !important;
+        display: block !important;
     }
 
     .event-item .event-title {
-        font-size: 15px !important;
-        margin-top: 4px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
     }
 
     .event-item .event-note {
-        font-size: 12px !important;
-        line-height: 1.4 !important;
+        display: none; /* Hide notes in compact floating view to save space */
     }
 
-    .user-actions {
+    /* TOP FILTER BUTTONS OVERLAY */
+    .top-nav {
+        background: rgba(255, 255, 255, 0.95) !important;
+        z-index: 1100;
+        height: auto !important;
+        padding: 10px !important;
+    }
+
+    .brand {
+        display: none !important; /* Save space for filters */
+    }
+
+    .nav-filters {
+        margin: 0 !important;
+    }
+
+    #day-filters {
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+
+    .filter-btn {
+        padding: 8px 12px !important;
+        font-size: 10px !important;
+        border-radius: 15px !important;
+    }
+
+    .filter-label {
         display: none !important;
+    }
+
+    /* CUSTOM TOGGLES FOR KEY POINTS & ROAD CLOSURES (Sticky Bottom Center) */
+    .quick-toggles {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        display: flex;
+        gap: 15px;
+    }
+
+    .toggle-btn {
+        background: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        font-size: 11px;
+        font-weight: 800;
+        border: none;
     }
 }
 
