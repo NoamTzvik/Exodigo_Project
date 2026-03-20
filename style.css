@@ -908,3 +908,65 @@ input[type="range"]::-webkit-slider-thumb:hover {
     line-height: 1.5;
     margin-top: 5px;
 }
+
+/* --- MOBILE RESPONSIVENESS & SCROLLING --- */
+@media screen and (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .protocol-sidebar {
+        width: 100% !important;
+        height: 50vh !important;
+        padding: 15px !important;
+        order: 2; /* Sidebar below map */
+        border-left: none;
+        border-top: 1px solid var(--border-light);
+    }
+
+    #map {
+        width: 100% !important;
+        height: 50vh !important;
+        order: 1; /* Map on top */
+    }
+
+    .top-nav {
+        padding: 10px 15px;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .brand-text {
+        display: none; /* Hide branding text on mobile to save space */
+    }
+
+    #day-filters {
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+        padding-bottom: 5px;
+    }
+
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 10px;
+        flex-shrink: 0;
+    }
+
+    .coord-box {
+        display: none; /* Hide coordinate box on small screens */
+    }
+    
+    .timeline {
+        overflow-y: auto !important;
+        flex: 1;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .user-actions {
+        display: none; /* Hide top right buttons to save space, or move them? */
+    }
+}
