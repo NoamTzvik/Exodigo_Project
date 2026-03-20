@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function createObject(lat, lng, angle = 0, color = '#00f0ff', name = '', type = 'sector', groupId = null) {
+    function createObject(lat, lng, angle = 0, color = '#00f0ff', name = '', type = 'sector', groupId = null, manualDay = null) {
         let layer;
         const latPerMeter = 0.000009;
         const lonPerMeter = 0.000012;
@@ -159,9 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: L.divIcon({ className: 'drag-handle-container', html: '<div></div>', iconSize: [12, 12] })
         });
 
-        // --- RE-CALCULATE DAY BASED ON NEW RULES ---
-        let day = null;
-        const normalizedName = (name || '').toLowerCase();
+        // --- DAY CALCULATION (優先: manualDay, מסנכרן: סרגל צד) ---
+        let day = manualDay;
+        if (day === null) {
+            const normalizedName = (name || '').toLowerCase();
 
         // 0. Red or Name contains roadblock-related words -> ROADBLOCK
         if (color === '#ff3e3e' || normalizedName.includes('road closure') || normalizedName.includes('חסימה') || normalizedName.includes('block')) {
@@ -198,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 6. White (#ffffff) -> Day 5
         else if (color === '#ffffff') {
             day = 5;
+        }
         }
 
         const obj = { layer, marker: dragHandle, lat, lng, angle, color, name, type, groupId, day };
