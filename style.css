@@ -962,13 +962,14 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 
     /* DUAL-ROW FILTERS FOR FULL VISIBILITY */
-    .top-nav { background: #ffffff !important; padding: 10px 15px !important; height: auto !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; display: block !important; border-bottom: 1px solid #eeeeee; padding-top: 15px !important; z-index: 9999 !important; }
-    .brand { display: none !important; }
-    .nav-filters { margin-top: 0 !important; }
-    .filter-label { display: block !important; color: #1a1a1a !important; font-weight: 800 !important; font-size: 10px !important; text-align: center !important; margin-bottom: 6px !important; letter-spacing: 1px !important; }
-    #day-filters { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: center !important; }
-    .filter-btn { background: #f8f9fa !important; color: #000000 !important; border: 1px solid #000000 !important; border-radius: 8px !important; padding: 8px 10px !important; font-size: 12px !important; font-weight: 800 !important; min-width: 40px !important; }
-    .filter-btn.active { background: #000000 !important; color: #ffffff !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }
+    .top-nav { background: #ffffff !important; padding: 10px 15px !important; height: auto !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; display: flex !important; align-items: center !important; justify-content: space-between !important; border-bottom: 2px solid #eeeeee; z-index: 9999 !important; }
+    .brand { display: flex !important; scale: 0.8; transform-origin: left center; }
+    .brand-text { color: #000000 !important; }
+    .nav-filters { margin-top: 0 !important; flex: 1; display: flex; justify-content: flex-end; }
+    .filter-label { display: none !important; } /* Hide label to save space on mobile header line */
+    #day-filters { display: flex !important; gap: 4px !important; }
+    .filter-btn { background: #ffffff !important; color: #000000 !important; border: 1px solid #000000 !important; border-radius: 6px !important; padding: 5px 8px !important; font-size: 10px !important; font-weight: 800 !important; min-width: 32px !important; }
+    .filter-btn.active { background: #000000 !important; color: #ffffff !important; border-color: #000000 !important; }
 
     .filter-btn {
         background: rgba(255, 255, 255, 0.1) !important;
