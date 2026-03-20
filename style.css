@@ -948,65 +948,55 @@ input[type="range"]::-webkit-slider-thumb:hover {
         z-index: 200 !important;
     }
 
-    /* Hide the summary list card from the image */
+    /* UNHIDE SUMMARY FOR MOBILE SPLIT-VIEW */
     .condensed-view {
-        display: none !important;
+        display: block !important;
     }
 
-    .section-title {
-        font-size: 14px !important;
-        margin-bottom: 12px !important;
-        text-align: left !important;
-        opacity: 0.8;
+    .condensed-view .event-item {
+        background: linear-gradient(to right, #ffffff, #f0faff) !important;
+        border-left-width: 8px !important;
     }
 
-    /* Accessibility Upgrade for Cards */
-    .event-item {
-        margin-bottom: 15px !important;
-        padding: 16px !important;
-        background: white !important;
-        border-radius: 10px !important;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
-        border-left-width: 6px !important;
-    }
-
-    .event-item .event-title {
-        font-size: 14px !important;
-        font-weight: 700 !important;
-    }
-
-    .event-item .event-note {
-        display: block !important; /* Notes visible in Split View */
-        font-size: 11px !important;
-        opacity: 0.8;
-    }
-
-    /* Filters: Compact & Centered on Header */
+    /* PREMIUM TEMPORAL FILTER DESIGN */
     .top-nav {
-        height: auto !important;
-        padding: 8px 10px !important;
-        background: #ffffff !important;
-    }
-
-    .brand {
-        display: none !important;
+        background: #0f1218 !important; /* Dark premium header */
+        padding: 12px 10px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
     }
 
     #day-filters {
-        justify-content: center !important;
-        gap: 6px !important;
+        gap: 8px !important;
+        padding: 5px 0 !important;
     }
 
     .filter-btn {
-        padding: 8px 12px !important;
-        font-size: 10px !important;
-        background: #f0f2f5 !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        padding: 10px 14px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px !important;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     }
 
     .filter-btn.active {
-        background: var(--accent-primary) !important;
+        background: var(--accent-primary) !important; /* Blue/Default accent */
+        color: white !important;
+        transform: scale(1.1);
+        box-shadow: 0 0 15px var(--accent-primary) !important;
+        border-color: transparent !important;
     }
 
+    /* Key Point toggle specific style */
+    .filter-btn[data-day="prescan"] {
+        border-color: rgba(255, 255, 0, 0.3) !important;
+    }
+    
+    .filter-btn[data-day="roadblock"] {
+        border-color: rgba(255, 62, 62, 0.3) !important;
+    }
     /* Floating Quick Toggles over Map */
     .quick-toggles {
         position: absolute;
@@ -1018,6 +1008,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
         flex-direction: column;
         gap: 10px;
         z-index: 1500;
+        display: flex !important; /* Force show in mobile */
     }
 
     .toggle-btn {
@@ -1031,5 +1022,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
         justify-content: center;
         background: rgba(255, 255, 255, 0.95);
         border: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
     }
 }
