@@ -358,7 +358,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- TEMPORAL FILTER LOGIC ---
     document.querySelectorAll('#day-filters .filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const daySelected = e.target.getAttribute('data-day');
+            const daySelected = btn.getAttribute('data-day');
+            console.log('Selecting Day:', daySelected);
 
             // UI Update
             document.querySelectorAll('#day-filters .filter-btn').forEach(b => b.classList.remove('active'));
