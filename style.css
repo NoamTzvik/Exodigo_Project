@@ -926,18 +926,18 @@ input[type="range"]::-webkit-slider-thumb:hover {
         background: #ffffff !important;
     }
 
-    /* TOP HALF: MAP (45%) */
+    /* TOP HALF: MAP (60%) */
     #map {
-        flex: 0 0 45% !important;
+        flex: 0 0 60% !important;
         width: 100% !important;
         position: relative !important;
         z-index: 100 !important;
         border-bottom: 2px solid var(--accent-primary);
     }
 
-    /* BOTTOM HALF: PROTOCOL (55%) */
+    /* BOTTOM HALF: PROTOCOL (40%) */
     .protocol-sidebar {
-        flex: 0 0 55% !important;
+        flex: 0 0 40% !important;
         width: 100% !important;
         display: block !important;
         position: relative !important;
@@ -958,26 +958,34 @@ input[type="range"]::-webkit-slider-thumb:hover {
         border-left-width: 8px !important;
     }
 
-    /* PREMIUM TEMPORAL FILTER DESIGN */
+    /* DUAL-ROW FILTERS FOR FULL VISIBILITY */
     .top-nav {
         background: #0f1218 !important; /* Dark premium header */
-        padding: 12px 10px !important;
+        padding: 5px 10px !important;
+        height: auto !important;
         box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+        display: block !important; /* Stack rows */
     }
 
     #day-filters {
-        gap: 8px !important;
-        padding: 5px 0 !important;
+        display: flex !important;
+        flex-wrap: wrap !important; /* Support two rows */
+        gap: 6px !important;
+        padding: 6px 0 !important;
+        justify-content: center !important;
     }
 
     .filter-btn {
         background: rgba(255, 255, 255, 0.1) !important;
         color: rgba(255, 255, 255, 0.8) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
-        padding: 10px 14px !important;
+        border-radius: 10px !important;
+        padding: 8px 12px !important;
+        font-size: 11px !important;
         font-weight: 700 !important;
         letter-spacing: 0.5px !important;
+        flex: 0 1 auto !important;
+        min-width: 40px !important;
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     }
 
