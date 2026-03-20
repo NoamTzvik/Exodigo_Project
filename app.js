@@ -558,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const DEFAULT_LAYOUT = [
+    const BAKED_DATA = [
         // --- ORANGE PATH ---
         { lat: 40.2475, lng: -77.17405, angle: 120, color: '#ff9d00', name: 'נקי מפתח', type: 'circle' },
         { lat: 40.2472, lng: -77.17395, angle: 115, color: '#ff9d00', name: 'פוליגון 0', type: 'sector' },
@@ -613,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const SAVE_KEY = 'exodigo_field_ops_v12';
 
     async function loadMission() {
-        let sourceData = DEFAULT_LAYOUT;
+        let sourceData = BAKED_DATA;
         let loadedFromServer = false;
         const statusPill = document.getElementById('server-status');
 
