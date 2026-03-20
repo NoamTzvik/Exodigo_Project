@@ -962,14 +962,14 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 
     /* DUAL-ROW FILTERS FOR FULL VISIBILITY */
-    .top-nav { background: #ffffff !important; padding: 10px 15px !important; height: auto !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; display: flex !important; align-items: center !important; justify-content: space-between !important; border-bottom: 2px solid #eeeeee; z-index: 9999 !important; }
-    .brand { display: flex !important; scale: 0.8; transform-origin: left center; }
-    .brand-text { color: #000000 !important; }
-    .nav-filters { margin-top: 0 !important; flex: 1; display: flex; justify-content: flex-end; }
-    .filter-label { display: none !important; } /* Hide label to save space on mobile header line */
+    .top-nav { background: #ffffff !important; padding: 12px 15px !important; height: auto !important; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important; display: flex !important; flex-direction: row-reverse !important; align-items: center !important; justify-content: space-between !important; border-bottom: 2px solid #e0e0e0; z-index: 9999 !important; }
+    .brand { display: flex !important; flex-direction: row-reverse !important; align-items: center !important; gap: 8px !important; scale: 0.85; transform-origin: right center; }
+    .brand-text { color: #000000 !important; text-align: right; }
+    .nav-filters { margin-top: 0 !important; flex: 1; display: flex !important; justify-content: flex-start !important; }
+    .filter-label { display: none !important; }
     #day-filters { display: flex !important; gap: 4px !important; }
-    .filter-btn { background: #ffffff !important; color: #000000 !important; border: 1px solid #000000 !important; border-radius: 6px !important; padding: 5px 8px !important; font-size: 10px !important; font-weight: 800 !important; min-width: 32px !important; }
-    .filter-btn.active { background: #000000 !important; color: #ffffff !important; border-color: #000000 !important; }
+    .filter-btn { background: #ffffff !important; color: #000000 !important; border: 1.5px solid #000000 !important; border-radius: 6px !important; padding: 4px 8px !important; font-size: 10px !important; font-weight: 900 !important; min-width: 30px !important; }
+    .filter-btn.active { background: #000000 !important; color: #ffffff !important; box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important; }
 
     .filter-btn {
         background: rgba(255, 255, 255, 0.1) !important;
