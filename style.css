@@ -284,11 +284,26 @@ body {
 }
 
 .day-outline h4 {
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: underline;
-    margin-bottom: 12px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+.day-outline[data-day="1"] h4 { background: #00f0ff; color: #000; border-left: 6px solid #00c0cc; }
+.day-outline[data-day="2"] h4 { background: #2a2a2a; color: #fff; border-left: 6px solid #000; }
+.day-outline[data-day="3"] h4 { background: #8b4513; color: #fff; border-left: 6px solid #5a2a0d; }
+.day-outline[data-day="4"] h4 { background: #ff9d00; color: #fff; border-left: 6px solid #cc7a00; }
+.day-outline[data-day="5"] h4 { background: #ffffff; color: #000; border: 1px solid #ddd; border-left: 6px solid #ccc; }
+.day-outline[data-day="prescan"] h4 { background: #ffff00; color: #000; border-left: 6px solid #cccc00; }
+.day-outline[data-day="roadblock"] h4 { background: #ff3e3e; color: #fff; border-left: 6px solid #cc0000; }
 
 .event-item {
     padding: 12px 0;
@@ -643,6 +658,13 @@ input[type="range"]::-webkit-slider-thumb:hover {
     width: 36px;
     height: 36px;
     justify-content: center;
+}
+
+.protocol-sidebar {
+    background: #ffffff;
+    border-right: 1px solid #eeeeee;
+    z-index: 200;
+    pointer-events: auto !important;
 }
 
 .drag-handle-container {
