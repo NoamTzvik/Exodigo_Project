@@ -935,28 +935,13 @@ input[type="range"]::-webkit-slider-thumb:hover {
         z-index: 1;
     }
 
-    /* RIGHT FLOATING SIDEBAR (Weekly Distribution) - HIDDEN BY DEFAULT */
+    /* REMOVE SIDEBAR COMPLETELY FROM MOBILE */
     .protocol-sidebar {
-        position: absolute !important;
-        right: 0 !important;
-        top: 80px !important; /* Below header */
-        width: 250px !important;
-        height: calc(100vh - 100px) !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(15px) !important;
-        -webkit-backdrop-filter: blur(15px) !important;
-        z-index: 1000;
-        border-left: 2px solid var(--accent-primary) !important;
-        padding: 20px !important;
-        overflow-y: auto !important;
-        box-shadow: -10px 0 30px rgba(0,0,0,0.2) !important;
-        transform: translateX(100%); /* Start off-screen */
-        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-        display: block !important;
+        display: none !important;
     }
 
     .protocol-sidebar.show-sidebar {
-        transform: translateX(0); /* Slide in */
+        display: none !important;
     }
 
     .section-title {
