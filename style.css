@@ -18,12 +18,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); height: 100vh; overflow: hidden; }
 
-.top-nav { height: 64px; background: white; border-bottom: 1px solid var(--border-main); display: flex; align-items: center; padding: 0 24px; gap: 40px; z-index: 1000; position: relative; }
+.top-nav { height: 64px; background: white; border-bottom: 1px solid var(--border-main); display: flex; flex-direction: row-reverse; align-items: center; padding: 0 24px; gap: 40px; z-index: 1000; position: relative; }
 .brand { display: flex; align-items: center; gap: 12px; }
 .exodigo-logo { width: 32px; height: 32px; background: var(--accent-primary); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.8L19.2 8 12 11.2 4.8 8 12 4.8zM4 15.8V9.3l7 3.1v6.5l-7-3.1zm9 3.1v-6.5l7-3.1v6.5l-7 3.1z'/%3E%3C/svg%3E") no-repeat center; }
 .brand-text { display: flex; flex-direction: column; }
 .main-title { font-size: 14px; letter-spacing: 0.05em; }
-.nav-filters { display: flex; gap: 32px; flex: 1; }
+.nav-filters { display: flex; flex-direction: row-reverse; gap: 32px; flex: 1; }
 .filter-group { display: flex; flex-direction: column; gap: 6px; }
 .filter-label { font-size: 9px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.1em; }
 .btn-group { display: flex; background: #e0e0db; padding: 2px; border-radius: 4px; }
@@ -31,7 +31,7 @@ body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color
 .filter-btn.active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
 .user-actions { display: flex; align-items: center; gap: 20px; }
-.main-layout { display: flex; height: calc(100vh - 64px); }
+.main-layout { display: flex; flex-direction: row-reverse; height: calc(100vh - 64px); }
 .protocol-sidebar { width: 380px; background: var(--sidebar-bg); border-right: 1px solid var(--border-main); padding: 32px; overflow-y: auto; }
 .protocol-section .section-title { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 20px; }
 .day-outline { margin-bottom: 32px; }
