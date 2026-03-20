@@ -908,6 +908,10 @@ input[type="range"]::-webkit-slider-thumb:hover {
     margin-top: 5px;
 }
 
+.quick-toggles {
+    display: none;
+}
+
 /* --- MASTER MOBILE FIELD APP UX (v18) --- */
 @media screen and (max-width: 768px) {
     body {
