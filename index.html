@@ -76,7 +76,7 @@
        <h4 style="margin-bottom: 24px;">
         WEEKLY OVERVIEW
        </h4>
-       <div class="event-item priority-ids" onclick="sidebarFilter(1)" style="cursor: pointer; border-left-color: #00f0ff;">
+       <div class="event-item priority-ids" data-day="1" onclick="sidebarFilter(1)" style="cursor: pointer; border-left-color: #00f0ff;">
         <span class="time" style="font-weight: bold;">
          (DAY 1 - MONDAY)
         </span>
@@ -87,7 +87,7 @@
          Staff meeting + scanning north part of site (mapping main utilities)
         </span>
        </div>
-       <div class="event-item" onclick="sidebarFilter(2)" style="cursor: pointer; border-left-color: #2a2a2a;">
+       <div class="event-item" data-day="2" onclick="sidebarFilter(2)" style="cursor: pointer; border-left-color: #2a2a2a;">
         <span class="time" style="font-weight: bold;">
          (DAY 2 - TUESDAY)
         </span>
@@ -98,7 +98,7 @@
          PM meeting + mapping main utilities in southwest part of site
         </span>
        </div>
-       <div class="event-item warning" onclick="sidebarFilter(3)" style="cursor: pointer; border-left-color: #8b4513;">
+       <div class="event-item warning" data-day="3" onclick="sidebarFilter(3)" style="cursor: pointer; border-left-color: #8b4513;">
         <span class="time" style="font-weight: bold;">
          (DAY 3 - WEDNESDAY)
         </span>
@@ -109,7 +109,7 @@
          Scanning flat areas due to weather, split into South &amp; North sectors
         </span>
        </div>
-       <div class="event-item" onclick="sidebarFilter(4)" style="cursor: pointer; border-left-color: #ff9d00;">
+       <div class="event-item" data-day="4" onclick="sidebarFilter(4)" style="cursor: pointer; border-left-color: #ff9d00;">
         <span class="time" style="font-weight: bold;">
          (DAY 4 - THURSDAY)
         </span>
@@ -120,7 +120,7 @@
          PM meeting + scanning south and central part of the site
         </span>
        </div>
-       <div class="event-item success" onclick="sidebarFilter(5)" style="cursor: pointer; border-left-color: #ffffff;">
+       <div class="event-item success" data-day="5" onclick="sidebarFilter(5)" style="cursor: pointer; border-left-color: #ffffff;">
         <span class="time" style="font-weight: bold;">
          (DAY 5 - FRIDAY)
         </span>
@@ -131,7 +131,7 @@
          Scanning central area of site and project closeout
         </span>
        </div>
-       <div class="event-item" onclick="sidebarFilter('prescan')" style="cursor: pointer; border-left-color: #ffff00;">
+       <div class="event-item" data-day="prescan" onclick="sidebarFilter('prescan')" style="cursor: pointer; border-left-color: #ffff00;">
         <span class="time" style="font-weight: bold;">
          PRE-SCAN (KEY POINTS - YELLOW)
         </span>
@@ -142,7 +142,7 @@
          Key points for pre-scan calibration
         </span>
        </div>
-       <div class="event-item" onclick="sidebarFilter('roadblock')" style="cursor: pointer; border-left-color: #ff3e3e;">
+       <div class="event-item" data-day="roadblock" onclick="sidebarFilter('roadblock')" style="cursor: pointer; border-left-color: #ff3e3e;">
         <span class="time" style="font-weight: bold;">
          ROAD CLOSURES (RED)
         </span>
