@@ -163,12 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let day = null;
         const normalizedName = (name || '').toLowerCase();
 
-        // Rules priority:
+        // 0. Red or Name contains roadblock-related words -> ROADBLOCK
+        if (color === '#ff3e3e' || normalizedName.includes('road closure') || normalizedName.includes('חסימה') || normalizedName.includes('block')) {
+            day = 'roadblock';
+        }
         // 1. Yellow or Name contains key pre-scan words -> KEY POINTS
-        if (color === '#ffff00' || normalizedName.includes('key point') || normalizedName.includes('sync') || normalizedName.includes('twin') || normalizedName.includes('assessment')) {
+        else if (color === '#ffff00' || normalizedName.includes('key point') || normalizedName.includes('sync') || normalizedName.includes('twin') || normalizedName.includes('assessment')) {
             day = 'prescan';
         }
-        // 2. Cyan or "חסימה...צפון" -> Day 1
+        // 2. Cyan -> Day 1
         else if (color === '#00f0ff') {
             day = 1;
         }
@@ -512,34 +515,50 @@ document.addEventListener('DOMContentLoaded', () => {
         // Save to LocalStorage as a fallback
         localStorage.setItem(SAVE_KEY, JSON.stringify(data));
 
-        // Attempt to save to the local server Python script for 100% permanent storage
+        const statusPill = document.getElementById('server-status');
+
+        // Attempt to save to the local server Python script
         try {
-            await fetch('/api/mission', {
+            const response = await fetch('/api/mission', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
+            if (response.ok && statusPill) {
+                statusPill.innerHTML = '<span class="status-dot" style="width: 6px; height: 6px; background: #00f0ff; border-radius: 50%;"></span> SERVER CONNECTED';
+                statusPill.style.background = '#e6ffff';
+                statusPill.style.color = '#00f0ff';
+            }
         } catch (e) {
-            console.log('Running in basic file mode (server not active), relying on local storage.');
+            console.log('Server not active, using local storage.');
+            if (statusPill) {
+                statusPill.innerHTML = '<span class="status-dot" style="width: 6px; height: 6px; background: #ff3e3e; border-radius: 50%;"></span> OFFLINE MODE';
+                statusPill.style.background = '#ffebeb';
+                statusPill.style.color = '#ff3e3e';
+            }
         }
     }
 
     const saveBtn = document.getElementById('save-mission-btn');
-    saveBtn.addEventListener('click', () => {
-        autoSaveMission();
-        saveBtn.innerText = "✅ SAVED";
-        setTimeout(() => { saveBtn.innerHTML = '<span class="icon">💾</span> SAVE MISSION'; }, 2000);
-    });
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            autoSaveMission();
+            saveBtn.innerText = "✅ SAVED";
+            setTimeout(() => { saveBtn.innerHTML = '<span class="icon">💾</span> SAVE MISSION'; }, 2000);
+        });
+    }
 
     function updateStats() {
         const statsPill = document.getElementById('poly-stats');
         if (statsPill) {
-            statsPill.innerHTML = `<strong>${polygons.length}</strong> OBJECTS PLANNED`;
+            const sectors = polygons.filter(p => p.type === 'sector').length;
+            const roadblocks = polygons.filter(p => p.day === 'roadblock').length;
+            statsPill.innerHTML = `<strong>${sectors}</strong> SECTORS | <strong>${roadblocks}</strong> ROAD CLOSURES`;
         }
     }
 
     const DEFAULT_LAYOUT = [
-        // --- ORANGE PATH (Far-Left Curved, Day 4) - 10 sectors + top node ---
+        // --- ORANGE PATH ---
         { lat: 40.2475, lng: -77.17405, angle: 120, color: '#ff9d00', name: 'נקי מפתח', type: 'circle' },
         { lat: 40.2472, lng: -77.17395, angle: 115, color: '#ff9d00', name: 'פוליגון 0', type: 'sector' },
         { lat: 40.2470, lng: -77.17380, angle: 115, color: '#ff9d00', name: 'פוליגון 1', type: 'sector' },
@@ -553,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { lat: 40.2446, lng: -77.17355, angle: 48, color: '#ff9d00', name: 'פוליגון 9', type: 'sector' },
         { lat: 40.2443, lng: -77.17335, angle: 38, color: '#ff9d00', name: 'פוליגון 10', type: 'sector' },
 
-        // --- WHITE PATH (Center, Day 5) - 10 sectors + node ---
+        // --- WHITE PATH ---
         { lat: 40.2484, lng: -77.17235, angle: 155, color: '#ffffff', name: 'פוליגון 1', type: 'sector' },
         { lat: 40.2481, lng: -77.17225, angle: 155, color: '#ffffff', name: 'פוליגון 2', type: 'sector' },
         { lat: 40.2478, lng: -77.17215, angle: 155, color: '#ffffff', name: 'פוליגון 3', type: 'sector' },
@@ -567,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { lat: 40.2479, lng: -77.17250, angle: 0, color: '#ffffff', name: 'חסימת ציר לבן', type: 'sector' },
         { lat: 40.2475, lng: -77.17280, angle: 45, color: '#ffffff', name: 'חסימת ציר 2', type: 'sector' },
 
-        // --- BLACK PATH (Center-Left Diagonal, Day 2) - 10 sectors + barrier + node ---
+        // --- BLACK PATH ---
         { lat: 40.2482, lng: -77.17295, angle: 155, color: '#2a2a2a', name: 'פוליגון 1', type: 'sector' },
         { lat: 40.2479, lng: -77.17285, angle: 155, color: '#2a2a2a', name: 'פוליגון 2', type: 'sector' },
         { lat: 40.2476, lng: -77.17275, angle: 155, color: '#2a2a2a', name: 'פוליגון 3', type: 'sector' },
@@ -578,39 +597,16 @@ document.addEventListener('DOMContentLoaded', () => {
         { lat: 40.2461, lng: -77.17225, angle: 155, color: '#2a2a2a', name: 'פוליגון 8', type: 'sector' },
         { lat: 40.2458, lng: -77.17215, angle: 155, color: '#2a2a2a', name: 'פוליגון 9', type: 'sector' },
         { lat: 40.2455, lng: -77.17205, angle: 155, color: '#2a2a2a', name: 'פוליגון 10', type: 'sector' },
-        { lat: 40.2460, lng: -77.17130, angle: 10, color: '#2a2a2a', name: 'חסימת ציר ד.מע/צ.מז', type: 'sector' },
-        { lat: 40.2445, lng: -77.17205, angle: 0, color: '#2a2a2a', name: 'נקי מפתח', type: 'circle' },
-        { lat: 40.2454, lng: -77.17125, angle: 155, color: '#8b4513', name: 'SEC-85', type: 'sector' },
 
-        // --- CYAN PATH (Right, Day 1) - 9 sectors + barrier ---
-        { lat: 40.2491, lng: -77.17055, angle: 155, color: '#00f0ff', name: 'פוליגון 1', type: 'sector' },
-        { lat: 40.2494, lng: -77.17050, angle: 155, color: '#00f0ff', name: 'נקי מפתח', type: 'circle' },
-        { lat: 40.2488, lng: -77.17040, angle: 155, color: '#00f0ff', name: 'פוליגון 2', type: 'sector' },
-        { lat: 40.2485, lng: -77.17030, angle: 155, color: '#00f0ff', name: 'פוליגון 3', type: 'sector' },
-        { lat: 40.2482, lng: -77.17025, angle: 155, color: '#00f0ff', name: 'פוליגון 4', type: 'sector' },
-        { lat: 40.2479, lng: -77.17025, angle: 155, color: '#00f0ff', name: 'פוליגון 5', type: 'sector' },
-        { lat: 40.2476, lng: -77.17025, angle: 155, color: '#00f0ff', name: 'פוליגון 6', type: 'sector' },
-        { lat: 40.2473, lng: -77.17020, angle: 155, color: '#00f0ff', name: 'פוליגון 7', type: 'sector' },
-        { lat: 40.2470, lng: -77.17015, angle: 155, color: '#00f0ff', name: 'פוליגון 8', type: 'sector' },
-        { lat: 40.2467, lng: -77.17010, angle: 155, color: '#00f0ff', name: 'פוליגון 9', type: 'sector' },
-        { lat: 40.2462, lng: -77.16935, angle: 100, color: '#00f0ff', name: 'חסימת ציר מדרום לצפון', type: 'sector' },
-
-        { lat: 40.2467, lng: -77.17025, angle: 155, color: '#8b4513', name: 'נקי מפתח', type: 'circle' },
-        { lat: 40.2464, lng: -77.17010, angle: 155, color: '#8b4513', name: 'פוליגון 1', type: 'sector' },
-        { lat: 40.2461, lng: -77.16995, angle: 155, color: '#8b4513', name: 'פוליגון 2', type: 'sector' },
-        { lat: 40.2458, lng: -77.16980, angle: 155, color: '#8b4513', name: 'פוליגון 3', type: 'sector' },
-        { lat: 40.2455, lng: -77.16965, angle: 155, color: '#8b4513', name: 'פוליגון 4', type: 'sector' },
-        { lat: 40.2452, lng: -77.16950, angle: 155, color: '#8b4513', name: 'פוליגון 5', type: 'sector' },
-        { lat: 40.2449, lng: -77.16935, angle: 155, color: '#8b4513', name: 'פוליגון 6', type: 'sector' },
-        { lat: 40.2446, lng: -77.16920, angle: 155, color: '#8b4513', name: 'פוליגון 7', type: 'sector' },
-        { lat: 40.2443, lng: -77.16905, angle: 155, color: '#8b4513', name: 'פוליגון 8', type: 'sector' },
-        { lat: 40.2440, lng: -77.16895, angle: 0, color: '#8b4513', name: 'נקי מפתח', type: 'circle' },
-
-        // --- PRE-SCAN KEY POINTS (Yellow) ---
-        { lat: 40.2478, lng: -77.17150, angle: 0, color: '#ffff00', name: 'KEY POINT 1', type: 'circle' },
-        { lat: 40.2470, lng: -77.17050, angle: 0, color: '#ffff00', name: 'KEY POINT 2 (Digital Twin Calibration)', type: 'circle' },
-        { lat: 40.2460, lng: -77.16950, angle: 0, color: '#ffff00', name: 'KEY POINT 3 (Micro-Tunneling Assessment)', type: 'circle' },
-        { lat: 40.2456, lng: -77.17060, angle: 155, color: '#ffff00', name: 'SEC-22 (Key Point)', type: 'sector' }
+        // --- PRE-SCAN KEY POINTS ---
+        { lat: 40.2478, lng: -77.17150, angle: 0, color: '#ffff00', name: '1. נק׳ מפתח (תשתית מרכזית)', type: 'circle', day: 'prescan' },
+        { lat: 40.2470, lng: -77.17050, angle: 0, color: '#ffff00', name: '2. נק׳ מפתח (שינויי גבהים)', type: 'circle', day: 'prescan' },
+        { lat: 40.2460, lng: -77.16950, angle: 0, color: '#ffff00', name: '3. נק׳ מפתח', type: 'circle', day: 'prescan' },
+        { lat: 40.2450, lng: -77.17100, angle: 0, color: '#ffff00', name: '4. נק׳ מפתח', type: 'circle', day: 'prescan' },
+        { lat: 40.2440, lng: -77.17250, angle: 0, color: '#ffff00', name: '5. נק׳ מפתח', type: 'circle', day: 'prescan' },
+        { lat: 40.2430, lng: -77.17400, angle: 0, color: '#ffff00', name: '6. נק׳ מפתח', type: 'circle', day: 'prescan' },
+        { lat: 40.2420, lng: -77.17550, angle: 0, color: '#ffff00', name: '7. נק׳ מפתח (ריכוז תשתיות מים)', type: 'circle', day: 'prescan' },
+        { lat: 40.2494, lng: -77.17050, angle: 0, color: '#ffff00', name: '8. נק׳ מפתח', type: 'circle', day: 'prescan' }
     ];
 
     const SAVE_KEY = 'exodigo_field_ops_v12';
@@ -618,6 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadMission() {
         let sourceData = DEFAULT_LAYOUT;
         let loadedFromServer = false;
+        const statusPill = document.getElementById('server-status');
 
         try {
             // Priority 1: Permanent File Storage (if server.py is running)
@@ -627,23 +624,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (Array.isArray(parsed) && parsed.length > 0) {
                     sourceData = parsed;
                     loadedFromServer = true;
+                    if (statusPill) {
+                        statusPill.innerHTML = '<span class="status-dot" style="width: 6px; height: 6px; background: #00f0ff; border-radius: 50%;"></span> SERVER CONNECTED';
+                        statusPill.style.background = '#e6ffff';
+                        statusPill.style.color = '#00f0ff';
+                    }
                 }
             }
         } catch (e) {
-            // Priority 2: Browser Local Storage (fallback)
+            console.log("Server not reachable, falling back to local storage.");
+        }
+
+        // If server failed or returned empty, try local storage
+        if (!loadedFromServer) {
             try {
                 const raw = localStorage.getItem(SAVE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         sourceData = parsed;
+                        console.log("Loaded from LocalStorage fallback.");
                     }
                 }
             } catch (err) { console.error("Local Load failed", err); }
         }
 
         sourceData.forEach(d => {
-            const obj = createObject(d.lat, d.lng, d.angle || 0, d.color, d.name, d.type, d.groupId);
+            const obj = createObject(d.lat, d.lng, d.angle || 0, d.color, d.name, d.type, d.groupId, d.day);
             polygons.push(obj);
         });
 
@@ -666,7 +673,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         invModal.addEventListener('click', (e) => {
             if (e.target === invModal) {
-                // Close if clicked outside the modal content box
                 invModal.style.display = 'none';
             }
         });

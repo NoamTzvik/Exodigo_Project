@@ -771,3 +771,140 @@ input[type="range"]::-webkit-slider-thumb:hover {
     color: var(--ids-cyan);
     font-weight: bold;
 }
+
+/* Schedule Improvements */
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 12px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.status-item {
+    font-size: 10px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.02em;
+}
+
+.status-item strong {
+    font-weight: 800;
+    color: var(--accent-primary);
+    min-width: 35px;
+}
+
+.status-item .finish-time {
+    color: var(--text-muted);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 9px;
+    opacity: 0.8;
+}
+
+.drone-status {
+    background: linear-gradient(135deg, #ffffff, #f0faff);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-left: 5px solid #00d4ff;
+    padding: 16px 20px;
+    margin-top: 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.drone-status::before {
+    content: 'AERIAL TASK';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 8px;
+    font-weight: 800;
+    color: #00d4ff;
+    opacity: 0.4;
+    letter-spacing: 2px;
+}
+
+.drone-status:hover {
+    transform: translateY(-2px) translateX(5px);
+    box-shadow: 0 12px 25px rgba(0, 180, 255, 0.2);
+    border-color: #00d4ff;
+}
+
+.drone-status .time {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px !important;
+    font-weight: 800;
+    color: #007c99 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.drone-status .time::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #00d4ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00d4ff;
+    animation: radar-pulse 2s infinite ease-out;
+}
+
+@keyframes radar-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+.drone-status .event-title {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.phase-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.phase-tag {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.phase-tag.setup {
+    background: #f1f1f1;
+    color: #666;
+    border: 1px dashed #ccc;
+}
+
+.phase-tag.flight {
+    background: rgba(0, 212, 255, 0.15);
+    color: #0088aa;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.drone-status .event-note {
+    font-size: 11px !important;
+    color: #555 !important;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    line-height: 1.5;
+    margin-top: 5px;
+}
