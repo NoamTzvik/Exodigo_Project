@@ -954,82 +954,73 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 
     .condensed-view .event-item {
-        background: linear-gradient(to right, #ffffff, #f0faff) !important;
+        background: linear-gradient(to right, #ffffff, #f0fffd) !important;
         border-left-width: 8px !important;
+        margin-bottom: 12px !important;
     }
 
-    /* DUAL-ROW FILTERS FOR FULL VISIBILITY */
+    /* WHITE THEME DUAL-ROW FILTERS (v35) */
     .top-nav {
-        background: #0f1218 !important; /* Dark premium header */
-        padding: 5px 10px !important;
+        background: #ffffff !important;
+        padding: 8px 10px !important;
         height: auto !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
-        display: block !important; /* Stack rows */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        display: block !important;
+        border-bottom: 1px solid #eeeeee;
     }
 
     #day-filters {
         display: flex !important;
-        flex-wrap: wrap !important; /* Support two rows */
+        flex-wrap: wrap !important;
         gap: 6px !important;
-        padding: 6px 0 !important;
+        padding: 4px 0 !important;
         justify-content: center !important;
     }
 
     .filter-btn {
-        background: rgba(255, 255, 255, 0.1) !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        padding: 8px 12px !important;
+        background: #f8f9fa !important;
+        color: #1a1a1a !important;
+        border: 1px solid #dddddd !important;
+        border-radius: 12px !important;
+        padding: 10px 12px !important;
         font-size: 11px !important;
         font-weight: 700 !important;
-        letter-spacing: 0.5px !important;
-        flex: 0 1 auto !important;
-        min-width: 40px !important;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        min-width: 42px !important;
+        transition: all 0.2s ease !important;
     }
 
     .filter-btn.active {
-        background: var(--accent-primary) !important; /* Blue/Default accent */
-        color: white !important;
-        transform: scale(1.1);
-        box-shadow: 0 0 15px var(--accent-primary) !important;
-        border-color: transparent !important;
+        background: #000000 !important;
+        color: #ffffff !important;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
     }
 
-    /* Key Point toggle specific style */
-    .filter-btn[data-day="prescan"] {
-        border-color: rgba(255, 255, 0, 0.3) !important;
-    }
-    
-    .filter-btn[data-day="roadblock"] {
-        border-color: rgba(255, 62, 62, 0.3) !important;
-    }
+    .filter-btn[data-day="prescan"] { border-left: 3px solid #ffff00 !important; }
+    .filter-btn[data-day="roadblock"] { border-left: 3px solid #ff3e3e !important; }
+
     /* Floating Quick Toggles over Map */
     .quick-toggles {
         position: absolute;
-        top: 20px; /* Floating over map */
+        top: 15px;
         right: 15px;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
+        display: flex !important;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         z-index: 1500;
-        display: flex !important; /* Force show in mobile */
     }
 
     .toggle-btn {
-        width: 45px;
-        height: 45px;
-        padding: 0 !important;
+        width: 42px;
+        height: 42px;
         border-radius: 50% !important;
-        font-size: 10px !important;
+        background: white;
+        border: 1px solid #dddddd;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid rgba(0,0,0,0.1);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        font-size: 10px !important;
+        font-weight: 700;
     }
 }
